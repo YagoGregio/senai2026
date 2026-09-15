@@ -1,0 +1,23 @@
+[
+    {
+        "id":1,
+        "nome":"João",
+        "peso":77,
+        "altura":1.79,
+        "dataNascimento":"2004-05-28"
+    },
+    {
+       "id":2,
+        "nome":"Bruna",
+        "peso":65,
+        "altura":1.55,
+        "dataNascimento":"2005-02-07"
+    },
+    {
+        "id":3,
+        "nome":"Ryan",
+        "peso":80,
+        "altura":1.82,
+        "dataNascimento":"2004-05-28"
+    }
+]

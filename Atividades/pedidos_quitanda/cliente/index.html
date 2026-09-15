@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pedidos Quitanda</title>
+</head>
+<body>
+    <center>
+        <h1>Novo Pedido</h1>
+        <form action="http://localhost.com:3000" method="post">
+            <input type="number" placeholder="Indentificação" name="id" required>
+            <br><br>
+            <input type="text" placeholder="Nome do Produto" name="nome" required>
+            <br><br>
+
+            <select name="unidade" required>
+                <option value="Kg">Kg</option>
+                <option value="Unidade">Unidade</option>
+            </select>
+            <br><br>
+
+            <input type="number" step="0.01" placeholder="Preço Unitário" name="precoUnitario" required>
+            <br><br>
+
+            <input type="number" name="quantidade" placeholder="Quantidade do produto" required>
+            <br><br>
+
+            <button type="reset">Limpar</button>
+            <button type+="subimt">Enviar</button>
+        </form>
+    </center>
+</body>
+</html>

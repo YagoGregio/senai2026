@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Agenda de Consultas</title>
+</head>
+<body>
+    <center>
+        <h1>Agendamento de Consulta</h1>
+        <form action="http://localhost:3000/" method="post">
+            <label for="nomePaciente">Nome do Paciente:</label>
+            <input type="text" placeholder="Nome do Paciente">
+            
+            <label for="data" clas="calender" >Data de Nascimento:</label>
+            <input type="datetime-local">
+
+            <label for="peso">Peso do Paciente:</label>
+            <input type="number" placeholder="Insira o peso" min="1">
+
+            <label for="altura">Altura do Paciente:</label>
+            <input type="number" placeholder="Insira a Altura">
+
+            <button type="reset">Limpar</button>
+            <button type="submit">Enviar</button>
+        </form>
+    </center>
+</body>
+</html>

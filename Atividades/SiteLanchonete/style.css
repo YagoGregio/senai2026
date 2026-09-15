@@ -1,0 +1,99 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	padding: 32px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	color: #3a2118;
+	font-family: Arial, Helvetica, sans-serif;
+	background: linear-gradient(135deg, #fff4df, #f7c873);
+}
+
+#formPedido, #resultado{
+	width: min(100%, 460px);
+	border-radius: 18px;
+	box-shadow: 0 12px 30px rgba(91, 48, 15, 0.16);
+}
+
+#formPedido {
+	display: grid;
+	gap: 9px;
+	padding: 28px;
+	background: #fffdf9;
+}
+
+#formPedido::before {
+	content: "🍔  Faça seu pedido";
+	margin-bottom: 8px;
+	color: #c2410c;
+	font-size: 1.6rem;
+	font-weight: 700;
+	text-align: center;
+}
+
+label {
+	margin-top: 7px;
+	font-weight: 700;
+}
+
+input,
+select,
+button {
+	width: 100%;
+	min-height: 44px;
+	border: 1px solid #e6cba8;
+	border-radius: 9px;
+	padding: 10px 12px;
+	font: inherit;
+}
+
+input,
+select {
+	color: #3a2118;
+	background: #fff;
+}
+
+input:focus,
+select:focus {
+	outline: 3px solid rgba(234, 88, 12, 0.2);
+	border-color: #ea580c;
+}
+
+button {
+	margin-top: 16px;
+	border: 0;
+	color: #fff;
+	font-weight: 700;
+	cursor: pointer;
+	background: #ea580c;
+	transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+	background: #c2410c;
+	transform: translateY(-1px);
+}
+
+#resultado {
+	min-height: 20px;
+	padding: 18px 22px;
+	color: #5b341e;
+	background: rgba(255, 253, 249, 0.9);
+}
+
+@media (max-width: 480px) {
+	body {
+		padding: 20px 12px;
+	}
+
+	#formPedido {
+		padding: 22px 18px;
+	}
+}
