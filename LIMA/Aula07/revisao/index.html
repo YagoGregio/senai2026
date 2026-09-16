@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro Aluno</title>
+</head>
+
+<body>
+    <center>
+        <form>
+
+            <label for="nome">Nome: </label>
+            <input type="text" id="nome" placeholder="Informe o Nome">
+            <br><br>
+
+            <label for="idade">Idade: </label>
+            <input type="number" id="idade" placeholder="Informe a iadade">
+            <br><br>
+
+            <label for="nota1" name="nota1">Informe Primeira Nota: </label>
+            <input type="number" id="nota1">
+            <br><br>
+
+            <label for="nota2" name="nota2">Informe Segunda Nota: </label>
+            <input type="number" id="nota2">
+            <br><br>
+
+            <label for="nota3" name="nota3">Informe Terceira Nota: </label>
+            <input type="number" id="nota3">
+            <br><br>
+
+            <button type="button" onclick="calcularResultado()">Calcular Resultado</button>
+            <hr>
+
+            <h2>Resultado</h2>
+            <p id="resultado"></p>
+        </form>
+    </center>
+    <script src="script.js"></script>
+</body>
+</html>
