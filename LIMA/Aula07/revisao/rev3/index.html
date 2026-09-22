@@ -1,60 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Caixa</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Caixa de Loja</title>
 </head>
+
 <body>
-    <main class="container">
-        <h1>Caixa</h1>
 
-        <section class="formulario">
-            <div>
-                <label for="produto">Produto</label>
-                <input type="text" id="produto">
-            </div>
+    <h1>Caixa de Loja</h1>
 
-            <div>
-                <label for="preco">Preço</label>
-                <input type="number" id="preco">
-            </div>
+    <label>Preço do produto:</label>
+    <input type="number" id="preco" step="0.01">
 
-            <div>
-                <label for="quantidade">Quantidade</label>
-                <input type="number" id="quantidade" value="1" min="1">
-            </div>
+    <br><br>
 
-            <div>
-                <label for="pagamento">Pagamento</label>
-                <select id="pagamento">Formas de Pagamento>
-                <option value="">Selecione</option>
-                <option value="pix">Pix</option>
-                <option value="cartao">Cartão</option>
-                <option value="dinheiro">Dinheiro</option>
+    <label>Quantidade:</label>
+    <input type="number" id="quantidade">
 
-            </div>
+    <br><br>
 
-            <button id="btnAdicionar">Adicionar produto</button>
-        </section>
+    <label>Forma de pagamento:</label>
 
-        <section class="lista">
-            <h2>Produtos</h2>
+    <select id="pagamento">
+        <option value="1">Dinheiro</option>
+        <option value="2">Pix</option>
+        <option value="3">Cartão</option>
+    </select>
 
-            <ul id="listaProdutos">
-                <!--Os produtos aparecerão aqui-->
-            </ul>
-        </section>
+    <br><br>
 
-        <section class="total">
-            <h2>Total da Compra</h2>
+    <label>Valor recebido:</label>
+    <input type="number" id="valorRecebido" step="0.01">
 
-            <p id="total">R$ 0,00</p>
-        </section>
+    <br><br>
 
-    </main>
-    
+    <button onclick="calcularCompra()">
+        Finalizar Compra
+    </button>
+
+    <h2>Resultado</h2>
+
+    <p id="resultado"></p>
+
     <script src="script.js"></script>
+
 </body>
+
 </html>
