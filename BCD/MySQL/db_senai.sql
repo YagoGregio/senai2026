@@ -60,3 +60,8 @@ ALTER TABLE venda
 ADD CONSTRAINT fk_vende_cliente
 FOREIGN KEY (id_cliente)
 REFERENCES cliente (id_cliente);
+
+ALTER TABLE venda
+ADD CONSTRAINT fk_produto_produto
+FOREIGN KEY (id_produto)
+REFERENCES produto (id_produto);
