@@ -57,6 +57,6 @@ INSERT INTO venda (id_cliente,id_produto,dt_entrada)
     VALUES (2,3"2023-09-25");
 
 ALTER TABLE venda
-ADD CONSTRAINT FK
+ADD CONSTRAINT fk_vende_cliente
 FOREIGN KEY (id_cliente)
 REFERENCES cliente (id_cliente);
