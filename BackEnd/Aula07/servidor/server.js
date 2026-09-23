@@ -1,14 +1,14 @@
 const express = require("express");
-const pedidos = require("../dados.json");
+const itens = require("../dados.json");
 
 const mostrarPatrimonio = (req, res) => {
-    res.send(pedidos)
+    res.send(itens)
 }
 
 const novoPatrimonio = (req, res) => {
     if (req.body) {
         res.send("Patrimonio cadastrado com sucesso!");
-        pedidos.push(req.body)
+        itens.push(req.body)
     } else {
         res.send("Falha ao cadastrar patrimonio!");
     }
@@ -17,9 +17,9 @@ const novoPatrimonio = (req, res) => {
 const excluirPatrimonio = (req, res) => {
     const id = req.params.id;
 
-    pedidos.forEach((pedido, indice) => {
+    itens.forEach((pedido, indice) => {
         if (pedido.id == id) {
-            pedidos.splice(indice, 1);
+            itens.splice(indice, 1);
         }
     });
 };
@@ -28,7 +28,7 @@ const alterarPatrimonio = (req, res) => {
     const id = req.params.id;
     const dados = req.body;
 
-    pedidos.forEach((pedido) => {
+    itens.forEach((pedido) => {
         if (pedido.id == id) {
             pedido.item = dados.item;
             pedido.local = dados.local;
