@@ -1,7 +1,7 @@
 const ventilador = document.getElementById("ventilador");
-const botao = document.getElementById("botao");
+const botao = document.getElementById("btnLigar");
 
-botao.addEventListener("click", function(){
+interruptor.addEventListener("click", function(){
 
     ventilador.classList.toggle("ligado");
 
