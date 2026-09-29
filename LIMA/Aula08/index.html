@@ -1,22 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle do Ventilador</title>
     <link rel="stylesheet" href="style.css">
-    <title>Lâmpada</title>
 </head>
+
 <body>
-    <h1>Controle da Lâmpada</h1>
+    <div class="container">
+        <h1>Controle do Ventilador</h1>
 
-    <div class="lampada-container">    
-        <!-- Lâmpada -->
-        <div id="lampada" class="lampada"></div>
+        <div id="ventilador" class="ventilador">
 
-        <!-- Interruptor -->
-        <button id="interruptor">Ligar</button>
+            <div class="helices">
+                <div class="helice"></div>
+                <div class="helice"></div>
+                <div class="helice"></div>
+            </div>
+
+            <div class="centro"></div>
+
+        </div>
+
+        <p id="status">Status: Desligado</p>
+
+        <div class="botoes">
+
+            <button id="botao">Ligar</button>
+            <br><br>
+
+            <h2>Velocidades</h2>
+
+            <div class="velocidade">
+                <button id="velocidade1">1</button>
+                <button id="velocidade2">2</button>
+                <button id="velocidade3">3</button>
+            </div>
+        </div>
     </div>
+</body>
 
-    <script src="script.js"></script>
-</body> 
 </html>

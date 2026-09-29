@@ -1,7 +1,13 @@
-const lampada = document.getElementById("lampada");
-const interruptor = document.getElementById("interruptor");
+const ventilador = document.getElementById("ventilador");
+const botao = document.getElementById("botao");
 
-interruptor.addEventListener("click", function () {
+botao.addEventListener("click", function(){
 
-    lampada.classList.toggle("ligada");
+    ventilador.classList.toggle("ligado");
+
+   if (ventilador.classList.contains("ligado")){
+    botao.textContent = "Desligar";
+   } else {
+    botao.textContent = "Ligar"
+   }
 });

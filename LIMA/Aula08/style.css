@@ -1,70 +1,132 @@
-* {
-  box-sizing: border-box;
-}
-
+/* Configuração geral da página */
 body {
-  font-family: Arial, sans-serif, sans-serif;
-  background-color: #222;
-  color: white;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #222;
+    color: white;
+    text-align: center;
 }
 
-h1 {
-  margin-bottom: 50px;
+/* Caixa principal */
+.container {
+    width: 400px;
+    margin: 50px auto;
 }
 
-.lampada-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
+/* Desenho do ventilador */
+#ventilador {
+    position: relative;
+
+    width: 300px;
+    height: 300px;
+
+    margin: 30px auto;
+
+    background-color: #444;
+
+    border: 10px solid #777;
+    border-radius: 50%;
 }
 
-/* Lâmpada apagada*/
-.lampada {
-  width: 150px;
-  height: 150px;
+/* Conjunto das hélices */
+.helices {
+    position: absolute;
 
-  background-color: #555;
-  border-radius: 50%;
+    width: 180px;
+    height: 180px;
 
-  box-shadow: 0 0 10px #000;
+    top: 50%;
+    left: 50%;
 
-  transition: 0.3s;
+    transform: translate(-50%, -50%);
+
+    
 }
 
-/*Lâmpada Ligada*/
-.lampada.ligada {
-  background-color: yellow;
+/* Cada hélice */
+.helice {
+    position: absolute;
 
-  box-shadow:
-    0 0 20px yellow,
-    0 0 40px yellow,
-    0 0 80px yellow;
+    width: 35px;
+    height: 80px;
+
+    background-color: #ddd;
+
+    top: 10px;
+    left: 72px;
+
+    border-radius: 50%;
+
+    transform-origin: center 80px;
 }
 
-#interruptor {
-  width: 120px;
-  height: 50px;
-  
-  border: none;
-  border-radius: 50px;
-
-  background-color: #444;
-  color: white;
-
-  font-size: 18px;
-
-  cursor: pointer;
+/* Primeira hélice */
+.helice:nth-child(1) {
+    transform: rotate(0deg);
 }
 
-#interruptor:hover{
-  background-color: #777;
+/* Segunda hélice */
+.helice:nth-child(2) {
+    transform: rotate(120deg);
+}
 
+/* Terceira hélice */
+.helice:nth-child(3) {
+    transform: rotate(240deg);
+}
+
+/* Centro do ventilador */
+.centro {
+    position: absolute;
+
+    width: 45px;
+    height: 45px;
+
+    background-color: #222;
+
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+}
+
+/* Animação das hélices */
+@keyframes girar {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Quando o ventilador está ligado */
+#ventilador.ligado {
+    box-shadow: 0 0 30px #00aaff;
+}
+
+#ventilador.ligado .helices {
+    animation: girar 1s linear infinite;
+}
+
+/* Botões */
+button {
+    padding: 10px 20px;
+
+    margin: 5px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+button:hover {
+    opacity: 0.8;
 }
