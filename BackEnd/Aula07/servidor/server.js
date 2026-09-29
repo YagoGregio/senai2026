@@ -1,5 +1,5 @@
 const express = require("express");
-const itens = require("../dados.json");
+const itens = require("../patrimonios.json");
 
 const mostrarPatrimonio = (req, res) => {
     res.send(itens)
@@ -17,8 +17,8 @@ const novoPatrimonio = (req, res) => {
 const excluirPatrimonio = (req, res) => {
     const id = req.params.id;
 
-    itens.forEach((pedido, indice) => {
-        if (pedido.id == id) {
+    itens.forEach((item, indice) => {
+        if (item.id == id) {
             itens.splice(indice, 1);
         }
     });
@@ -28,13 +28,13 @@ const alterarPatrimonio = (req, res) => {
     const id = req.params.id;
     const dados = req.body;
 
-    itens.forEach((pedido) => {
-        if (pedido.id == id) {
-            pedido.item = dados.item;
-            pedido.local = dados.local;
-            pedido.dataRegistro = dados.dataRegistro;
-            pedido.valor = dados.valor;
-            pedido.patrimonio = dados.patrimonio;
+    itens.forEach((itens) => {
+        if (itens.id == id) {
+            itens.item = dados.item;
+            itens.local = dados.local;
+            itens.dataRegistro = dados.dataRegistro;
+            itens.valor = dados.valor;
+            itens.patrimonio = dados.patrimonio;
         };
     });
 };
