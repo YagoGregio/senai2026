@@ -10,7 +10,9 @@ API simples para controlar o patrimônio de uma instituição (notebooks, projet
 2. Na pasta do projeto, instale as dependências:
 
 ```bash
-npm install
+npm init -y
+
+npm install express
 ```
 
 3. Inicie o servidor:
