@@ -188,3 +188,23 @@ Resposta (status 404):
   "mensagem": "Patrimônio não encontrado!"
 }
 ```
+
+## Evidências de testes
+
+Testes realizados com a extensão Thunder Client no VS Code, com o servidor rodando em `http://127.0.0.1:3000`.
+
+### GET / – Listar patrimônios
+
+![Teste GET listando os patrimônios](imagens/01-get-listar.png)
+
+### POST / – Cadastrar patrimônio
+
+![Teste POST cadastrando um patrimônio](imagens/02-post-cadastrar.png)
+
+### PUT /:id – Alterar patrimônio
+
+![Teste PUT alterando um patrimônio](imagens/03-put-alterar.png)
+
+### DELETE /:id – Excluir patrimônio
+
+![Teste DELETE excluindo um patrimônio](imagens/04-delete-excluir.png)
