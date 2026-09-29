@@ -16,15 +16,17 @@ npm install
 3. Inicie o servidor:
 
 ```bash
-node server.js
+npm run dev
 ```
 
 4. Acesse: `http://127.0.0.1:3000`
 
 ## Tecnologias utilizadas
 
+- Vs Code
 - Node.js
 - Express
+- JavaScript
 - JSON
 
 ## Rotas disponíveis
