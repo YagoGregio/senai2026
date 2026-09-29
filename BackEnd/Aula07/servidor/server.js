@@ -16,27 +16,33 @@ const novoPatrimonio = (req, res) => {
 
 const excluirPatrimonio = (req, res) => {
     const id = req.params.id;
+    const indice = itens.findIndex(item => item.id == id);
 
-    itens.forEach((item, indice) => {
-        if (item.id == id) {
-            itens.splice(indice, 1);
-        }
-    });
+    if (indice === -1) {
+        return res.status(404).send("Patrimonio não encontrado!");
+    }
+
+    itens.splice(indice, 1);
+    res.send("Patrimonio excluído com sucesso!");
 };
 
 const alterarPatrimonio = (req, res) => {
     const id = req.params.id;
     const dados = req.body;
 
-    itens.forEach((itens) => {
-        if (itens.id == id) {
-            itens.item = dados.item;
-            itens.local = dados.local;
-            itens.dataRegistro = dados.dataRegistro;
-            itens.valor = dados.valor;
-            itens.patrimonio = dados.patrimonio;
-        };
-    });
+    const item = itens.find(i => i.id == id);
+
+    if (!item) {
+        return res.status(404).send("Patrimonio não encontrado!");
+    }
+
+    item.item = dados.item;
+    item.local = dados.local;
+    item.dataRegistro = dados.dataRegistro;
+    item.valor = dados.valor;
+    item.patrimonio = dados.patrimonio;
+
+    res.send("Patrimonio alterado com sucesso!");
 };
 
 const app = express();
