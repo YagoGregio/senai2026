@@ -23,8 +23,10 @@ npm run dev
 
 ## Tecnologias utilizadas
 
+- Vs Code
 - Node.js
 - Express
+- JavaScript
 - JSON
 
 ## Rotas disponíveis
