@@ -14,6 +14,23 @@ const novoPatrimonio = (req, res) => {
     }
 }
 
+const buscarPatrimonio = (req, res) => {
+    const id = req.params.id;
+
+    let encontrou = false;
+
+    itens.forEach((item) => {
+        if (item.id == id){
+            res.send(item)
+            encontrou = true
+        }
+    });
+
+    if (!encontrou){
+        res.status(404).send("Patrimonio não encontrado")
+    }
+};
+
 const excluirPatrimonio = (req, res) => {
     const id = req.params.id;
     const indice = itens.findIndex(item => item.id == id);
@@ -51,6 +68,7 @@ app.use(express.urlencoded({ extended: true }))
 const porta = 3000;
 
 app.get("/", mostrarPatrimonio);
+app.get("/:id", buscarPatrimonio);
 app.post("/", novoPatrimonio);
 app.delete("/:id", excluirPatrimonio);
 app.put("/:id", alterarPatrimonio)
