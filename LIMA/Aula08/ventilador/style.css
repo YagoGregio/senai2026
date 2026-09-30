@@ -1,132 +1,139 @@
-/* Configuração geral da página */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #222;
-    color: white;
-    text-align: center;
-}
+  font-family: Arial, sans-serif;
 
-/* Caixa principal */
+  background-color: #1c222e;
+
+  color: #95a0a2;
+
+  text-align: center;
+
+  margin: 0;
+}
 .container {
-    width: 400px;
-    margin: 50px auto;
-}
+  width: 400px;
 
-/* Desenho do ventilador */
+  margin: 50px auto;
+}
 #ventilador {
-    position: relative;
+  position: relative;
 
-    width: 300px;
-    height: 300px;
+  width: 300px;
+  height: 300px;
 
-    margin: 30px auto;
+  margin: 30px auto;
 
-    background-color: #444;
+  background-color: #95a0a2;
 
-    border: 10px solid #777;
-    border-radius: 50%;
+  border: 10px solid #666e70;
+
+  border-radius: 50%;
 }
-
-/* Conjunto das hélices */
 .helices {
-    position: absolute;
+  position: absolute;
 
-    width: 180px;
-    height: 180px;
+  width: 180px;
+  height: 180px;
 
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 
-    transform: translate(-50%, -50%);
-
-    
+  transform: translate(-50%, -50%);
 }
-
-/* Cada hélice */
 .helice {
-    position: absolute;
+  position: absolute;
 
-    width: 35px;
-    height: 80px;
+  width: 35px;
+  height: 80px;
 
-    background-color: #ddd;
+  background-color: #3f474a;
 
-    top: 10px;
-    left: 72px;
+  top: 10px;
+  left: 72px;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    transform-origin: center 80px;
+  transform-origin: center 80px;
 }
-
-/* Primeira hélice */
 .helice:nth-child(1) {
-    transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
-/* Segunda hélice */
 .helice:nth-child(2) {
-    transform: rotate(120deg);
+  transform: rotate(120deg);
 }
 
-/* Terceira hélice */
 .helice:nth-child(3) {
-    transform: rotate(240deg);
+  transform: rotate(240deg);
 }
-
-/* Centro do ventilador */
 .centro {
-    position: absolute;
+  position: absolute;
 
-    width: 45px;
-    height: 45px;
+  width: 45px;
+  height: 45px;
 
-    background-color: #222;
+  background-color: #1c222e;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
-    z-index: 10;
+  z-index: 10;
 }
-
-/* Animação das hélices */
 @keyframes girar {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
-
-/* Quando o ventilador está ligado */
 #ventilador.ligado {
-    box-shadow: 0 0 30px #00aaff;
+  box-shadow:
+    0 0 15px #666e70,
+    0 0 30px #959595,
+    0 0 50px #95a0a2;
 }
 
 #ventilador.ligado .helices {
-    animation: girar 1s linear infinite;
+  animation: girar 1s linear infinite;
 }
-
-/* Botões */
 button {
-    padding: 10px 20px;
+  padding: 10px 20px;
 
-    margin: 5px;
+  margin: 5px;
 
-    border: none;
-    border-radius: 5px;
+  border: none;
 
-    cursor: pointer;
+  border-radius: 10px;
 
-    font-size: 16px;
+  cursor: pointer;
+
+  font-size: 16px;
+
+  background-color: #959595;
+
+  color: white;
 }
 
 button:hover {
-    opacity: 0.8;
+  background-color: #95a0a2;
+
+  transform: scale(1.05);
+}
+.velocidade {
+  background-color: #95a0a2;
+
+  color: white;
+
+  font-weight: bold;
+}
+
+.velocidade.selecionada {
+  background-color: #3f474a;
+
+  box-shadow: 0 0 15px #3f474a;
 }

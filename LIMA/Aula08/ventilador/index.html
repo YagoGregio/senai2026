@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle do Ventilador</title>
+
+    <title>Ventilador</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Controle do Ventilador</h1>
-
-        <div id="ventilador" class="ventilador">
+        <h1>Ventilador</h1>
+        <div id="ventilador">
 
             <div class="helices">
                 <div class="helice"></div>
@@ -24,21 +25,25 @@
 
         </div>
 
-        <p id="status">Status: Desligado</p>
+        <h2 id="status">Desligado</h2>
+        <button id="botao">
+            Ligar
+        </button>
 
-        <div class="botoes">
+        <div class="velocidades">
+            <button class="velocidade" data-velocidade="1">
+                1
+            </button>
 
-            <button id="botao">Ligar</button>
-            <br><br>
+            <button class="velocidade" data-velocidade="2">
+                2
+            </button>
 
-            <h2>Velocidades</h2>
-
-            <div class="velocidade">
-                <button id="velocidade1">1</button>
-                <button id="velocidade2">2</button>
-                <button id="velocidade3">3</button>
-            </div>
+            <button class="velocidade" data-velocidade="3">
+                3
+            </button>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
