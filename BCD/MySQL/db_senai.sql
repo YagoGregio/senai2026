@@ -1,6 +1,12 @@
+/* Criando o Banco de Dados*/
+
 CREATE DATABASE db_senai;
 
+/* Acessando o DataBase*/
+
 USE db_senai;
+
+/* Criando a tabela de Clientes*/
 
 CREATE TABLE cliente(
     id_cliente INT PRIMARY KEY AUTO_INCREMENT,
@@ -8,6 +14,8 @@ CREATE TABLE cliente(
     email VARCHAR(100) NOT NULL,
     dt_nasc DATE NOT NULL                
 );
+
+/* Criando a tabela de Produtos*/
 
 CREATE TABLE produto(
     id_produto INT PRIMARY KEY AUTO_INCREMENT,
@@ -17,12 +25,17 @@ CREATE TABLE produto(
     qtd INT NOT NULL
 );
 
+/* Criando a tabela de Vendas*/
+
 CREATE TABLE venda(
     id_venda INT PRIMARY KEY AUTO_INCREMENT,
     id_cliente INT NOT NULL,
     id_produto INT NOT NULL,
     dt_entrada DATE NOT NULL
 );
+
+/* Cadastro dos Clientes*/
+
 USE db_senai;
 
 INSERT INTO cliente (nome_cliente,email,dt_nasc)
@@ -33,6 +46,9 @@ INSERT INTO cliente (nome_cliente,email,dt_nasc)
 
 INSERT INTO cliente (nome_cliente,email,dt_nasc)
     VALUES ("Lewis Hamilton","lewis.hamilton@gmail.com","1985-01-07");
+
+
+/* Cadastro de Produtos*/
 
 USE db_senai;
 
@@ -45,6 +61,8 @@ INSERT INTO produto (produto,dt_entrega,preco,qtd)
 INSERT INTO produto (produto,dt_entrega,preco,qtd)
     VALUES ("Teclado Dell","2026-08-03","125.00",5);
 
+/* Cadastrando as Vendas*/
+
 USE db_senai;
 
 INSERT INTO venda (id_cliente,id_produto,dt_entrada)
@@ -55,6 +73,8 @@ INSERT INTO venda (id_cliente,id_produto,dt_entrada)
 
 INSERT INTO venda (id_cliente,id_produto,dt_entrada)
     VALUES (2,3"2023-09-25");
+
+/* Adicionando Chaves Secundarias*/
 
 ALTER TABLE venda
 ADD CONSTRAINT fk_vende_cliente
