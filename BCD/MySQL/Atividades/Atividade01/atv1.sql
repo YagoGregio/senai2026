@@ -24,3 +24,13 @@ CREATE TABLE venda(
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
+
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ("Ana Beatriz Silva", "ana.beatriz.silva@hotmail.com", "(11) 98742-3156");
+
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ("Gabriel Henrique Souza", "gabriel.henrique.souza@gmail.com", "(21) 97631-4285");
+
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ("Lucas Almeida Santos", "lucas.almeidasantos@outlook.com", "(31) 99158-6732");
+
