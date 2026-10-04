@@ -26,7 +26,7 @@ CREATE TABLE venda(
 );
 
 INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
-VALUES ("Ana Beatriz Silva", "ana.beatriz.silva@hotmail.com", "(11) 98742-3156");
+VALUES ("Ana Beatriz silva", "ana.beatriz.silva@hotmail.com", "(11) 98742-3156");
 
 INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
 VALUES ("Gabriel Henrique Souza", "gabriel.henrique.souza@gmail.com", "(21) 97631-4285");
@@ -34,3 +34,20 @@ VALUES ("Gabriel Henrique Souza", "gabriel.henrique.souza@gmail.com", "(21) 9763
 INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
 VALUES ("Lucas Almeida Santos", "lucas.almeidasantos@outlook.com", "(31) 99158-6732");
 
+INSERT INTO produto(nome_produto, preco_produto)
+VALUES ("Notebook Dell", 3500.00);
+
+INSERT INTO produto(nome_produto, preco_produto)
+VALUES ("Smartphone Samsung", 2500.00);
+
+INSERT INTO produto(nome_produto, preco_produto)
+VALUES ("Tablet Appl", 4000.00);
+
+INSERT INTO venda(id_cliente, id_produto, data_venda)
+VALUES (1, 1, "2024-06-01");
+
+INSERT INTO venda(id_cliente, id_produto, data_venda)
+VALUES (3, 2, "2024-06-02");
+
+INSERT INTO venda(id_cliente, id_produto, data_venda)
+VALUES (2, 3, "2024-06-03");
