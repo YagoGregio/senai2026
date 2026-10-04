@@ -38,10 +38,10 @@ INSERT INTO produto(nome_produto, preco_produto)
 VALUES ("Notebook Dell", 3500.00);
 
 INSERT INTO produto(nome_produto, preco_produto)
-VALUES ("Smartphone Samsung", 2500.00);
+VALUES ("Smartphone Sansung", 2500.00);
 
 INSERT INTO produto(nome_produto, preco_produto)
-VALUES ("Tablet Appl", 4000.00);
+VALUES ("Tablet Apple", 2750.00);
 
 INSERT INTO venda(id_cliente, id_produto, data_venda)
 VALUES (1, 1, "2024-06-01");
