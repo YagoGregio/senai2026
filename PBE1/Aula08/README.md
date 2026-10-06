@@ -43,7 +43,6 @@ Aula08/
 
 ```bash
 npm install -y
-```
 
 ```bash
 npm install i express cors
