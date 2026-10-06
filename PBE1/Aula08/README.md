@@ -8,6 +8,7 @@ API REST simples feita com **Node.js** e **Express**, seguindo o padrão **MVC**
 
 - Node.js
 - Express
+- Cors
 - Arquivos JSON como armazenamento
 
 ## Estrutura do projeto
@@ -133,7 +134,6 @@ GET http://localhost:3000/clientes
 
 ```
 POST http://localhost:3000/clientes
-Content-Type: application/json
 
 {
     "cpf": "111.222.333-44",
@@ -147,7 +147,6 @@ Resposta: `201 Created` com o cliente criado (incluindo o `id` gerado).
 
 ```
 PUT http://localhost:3000/clientes/1
-Content-Type: application/json
 
 {
     "id": 1,
@@ -170,7 +169,6 @@ Resposta: `"Cliente excluído com sucesso!"` ou `404` com `"Cliente não encontr
 
 ```
 POST http://localhost:3000/pedidos
-Content-Type: application/json
 
 {
     "cliente_id": 2,
