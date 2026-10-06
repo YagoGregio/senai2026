@@ -49,7 +49,7 @@ npm install i express cors
 2. Inicie o servidor:
 
 ```bash
-node server.js
+npm run dev
 ```
 
 3. Acesse a API em `http://localhost:3000`.
@@ -80,7 +80,7 @@ node server.js
 | PUT | `/pedidos/:id` | Altera um pedido existente |
 | DELETE | `/pedidos/:id` | Exclui um pedido |
 
-> A função `subtotal` existe no controller de pedidos, mas ainda está **em construção** e não possui rota.
+> A função `subtotal` existe no controller de pedidos, mas não tem rota definida possui rota.
 
 ## Modelos de dados
 
@@ -215,7 +215,6 @@ Exemplo de item retornado:
 
 ## Melhorias futuras
 
-- Implementar a rota de `subtotal` dos pedidos
 - Persistir os dados nos arquivos JSON (ou em um banco de dados)
 - Validar os dados recebidos no `body`
 - Tratar o caso de lista vazia ao gerar o `id`
