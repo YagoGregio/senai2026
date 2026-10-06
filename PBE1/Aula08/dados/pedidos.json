@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "cliente_id": 1,
+        "produto": "Notebook",
+        "preco": 3500.00,
+        "quantidade": 1
+    },
+    {
+        "id": 2,
+        "cliente_id": 2,
+        "produto": "Smartphone",
+        "preco": 1500.00,
+        "quantidade": 2
+    },
+    {
+        "id": 3,
+        "cliente_id": 1,
+        "produto": "Teclado",
+        "preco": 200.00,
+        "quantidade": 1
+    },
+    {
+        "id": 4,
+        "cliente_id": 3,
+        "produto": "Monitor",
+        "preco": 800.00,
+        "quantidade": 1
+    }
+]

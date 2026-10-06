@@ -51,3 +51,6 @@ VALUES (3, 2, "2024-06-02");
 
 INSERT INTO venda(id_cliente, id_produto, data_venda)
 VALUES (2, 3, "2024-06-03");
+
+ALTER TABLE produto
+ADD CONSTRAINT uk_produto_unico UNIQUE (nome_produto);
