@@ -42,9 +42,12 @@ Aula08/
 1. Instale as dependências:
 
 ```bash
-npm install
+npm install -y
 ```
 
+```bash
+npm install i express cors
+```
 2. Inicie o servidor:
 
 ```bash
