@@ -1,6 +1,6 @@
 const pedidos = require('../../dados/pedidos.json');
 
-const listar = (req,res) => {
+const listar = (req, res) => {
     subtotais();
     res.json(pedidos);
 };
@@ -18,9 +18,37 @@ const criar = (req, res) => {
     res.status(201).json(dados);
 };
 
-const alterar = (req,res) => { res.json("Em construção") };
-const excluir = (req,res) => { res.json("Em construção") };
-const subtotal = (req,res) => { res.json("Em construção") };
+const alterar = (req, res) => {
+    const id = req.params.id;
+    const dados = req.body;
+
+    const item = pedidos.find(i => i.id == id);
+
+    if (!item) {
+        return res.status(404).send("Pedido não encontrado!");
+    }
+
+    item.id = dados.id;
+    item.cliente_id = dados.cliente_id;
+    item.produto = dados.produto;
+    item.preco = dados.preco;
+    item.quantidade = dados.quantidade;
+
+    res.send("Pedido alterado com sucesso!");
+};
+
+const excluir = (req, res) => {
+    const id = req.params.id;
+    const indice = pedidos.findIndex(item => item.id == id);
+
+    if (indice === -1) {
+        return res.status(404).send("Pedido não encontrado!");
+    }
+
+    pedidos.splice(indice, 1);
+    res.send("Pedido excluído com sucesso!");
+}
+const subtotal = (req, res) => { res.json("Em construção") };
 
 module.exports = {
     criar, listar, alterar, excluir, subtotal
