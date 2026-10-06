@@ -2,6 +2,7 @@ const pedidos = require('../../dados/pedidos.json');
 
 const listar = (req,res) => {
     subtotais();
+    novoPedido();
     res.json(pedidos);
 };
 
@@ -17,5 +18,5 @@ const excluir = (req,res) => { res.json("Em construção") };
 const subtotal = (req,res) => { res.json("Em construção") };
 
 module.exports = {
-    criar, listar, alterar, excluir, listar
+    criar, listar, alterar, excluir,
 }
