@@ -4,7 +4,7 @@
         "cliente_id": 1,
         "produto": "Notebook",
         "preco": 3500.00,
-        "quantidade": 1
+        "quantidade": 2
     },
     {
         "id": 2,
@@ -18,7 +18,7 @@
         "cliente_id": 1,
         "produto": "Teclado",
         "preco": 200.00,
-        "quantidade": 1
+        "quantidade": 3
     },
     {
         "id": 4,
