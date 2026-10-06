@@ -44,7 +44,6 @@ Aula08/
 ```bash
 npm install -y
 
-```bash
 npm install i express cors
 ```
 2. Inicie o servidor:
