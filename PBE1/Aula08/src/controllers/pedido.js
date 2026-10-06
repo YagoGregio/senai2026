@@ -1,11 +1,11 @@
 const pedidos = require('../../dados/pedidos.json');
 
 const listar = (req, res) => {
-    subtotais();
+    calcTotais();
     res.json(pedidos);
 };
 
-function subtotais() {
+function calcTotais() {
     pedidos.forEach(p => {
         p.subtotais = p.quantidade * p.preco;
     });
