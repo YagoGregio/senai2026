@@ -20,21 +20,15 @@ const criar = (req, res) => {
 
 const alterar = (req, res) => {
     const id = req.params.id;
-    const dados = req.body;
+    const info = req.body;
 
-    const item = pedidos.find(i => i.id == id);
+    const busca = pedidos.find((dado) => dado.id == id);
 
-    if (!item) {
-        return res.status(404).send("Pedido não encontrado!");
-    }
+    Object.keys(info).forEach((i) => {
+        busca[i] = info[i];
+    });
 
-    item.id = dados.id;
-    item.cliente_id = dados.cliente_id;
-    item.produto = dados.produto;
-    item.preco = dados.preco;
-    item.quantidade = dados.quantidade;
-
-    res.send("Pedido alterado com sucesso!");
+    res.send("Alteração realizada com sucesso!").end();
 };
 
 const excluir = (req, res) => {

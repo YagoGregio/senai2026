@@ -13,19 +13,15 @@ const criar = (req, res) => {
 
 const alterar = (req, res) => {
     const id = req.params.id;
-    const dados = req.body;
+    const info = req.body;
 
-    const item = clientes.find(i => i.id == id);
+    const busca = clientes.find((dado) => dado.id == id);
 
-    if (!item) {
-        return res.status(404).send("Cliente não encontrado!");
-    }
+    Object.keys(info).forEach((i) => {
+        busca[i] = info[i];
+    });
 
-    item.id = dados.id;
-    item.cpf = dados.cpf;
-    item.nome = dados.nome;
-
-    res.send("Cliente alterado com sucesso!");
+    res.send("Alteração realizada com sucesso!").end();
 };
 
 const excluir = (req, res) => {
