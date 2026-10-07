@@ -54,3 +54,19 @@ VALUES (2, 3, "2024-06-03");
 
 ALTER TABLE produto
 ADD CONSTRAINT uk_produto_unico UNIQUE (nome_produto);
+
+UPDATE cliente
+SET nome_cliente = 'Ana Beatriz Silva'
+WHERE id_cliente = 1; 
+
+UPDATE produto
+SET nome_produto = 'Smartphone Samsung'
+WHERE id_produto = 2;
+
+UPDATE produto
+SET preco_produto = 4500.00
+WHERE id_produto = 3;
+
+UPDATE cliente
+SET email_cliente = 'lucas.almeida.santos@outlook.com'
+WHERE id_cliente = 3;
