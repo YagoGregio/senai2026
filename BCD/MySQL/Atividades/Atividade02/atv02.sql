@@ -52,4 +52,13 @@ INSERT INTO emprestimo (id_aluno, id_livro, data_emprestimo, data_devolucao) VAL
 (2, 2, '2023-02-01', '2023-03-01');
 
 INSERT INTO emprestimo (id_aluno, id_livro, data_emprestimo, data_devolucao) VALUES
-(3, 4, '2023-03-10', '2023-04-10');
+(3, 3, '2023-03-10', '2023-04-10');
+
+ALTER TABLE aluno
+    ADD CONSTRAINT uk_aluno_email UNIQUE (email_aluno);
+
+ALTER TABLE livro
+    ADD CONSTRAINT uk_livro UNIQUE (etitulo);
+
+ALTER TABLE emprestimo
+    ADD CONSTRAINT uk_emprestimo UNIQUE (id_livro);
