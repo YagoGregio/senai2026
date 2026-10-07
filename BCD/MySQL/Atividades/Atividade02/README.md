@@ -1,181 +1,124 @@
-# Atividade 1 — Compra de Produtos (Banco de Dados)
+# Atividade 2 – Sistema de Biblioteca
 
-Modelagem e criação de um banco de dados relacional (`empresa_vendas`) para registrar vendas de produtos a clientes, incluindo carga inicial de dados e atualizações.
+Banco de dados relacional para o controle de alunos e empréstimos de livros de uma biblioteca.
 
-## Descrição do problema
+## Contexto
 
-- **Cliente**: possui nome, e-mail e telefone.
-- **Produto**: possui nome e preço.
-- **Venda**: registra a quantidade vendida e a data da venda.
-- Um cliente pode comprar vários produtos e um produto pode ser comprado por vários clientes (relação N:N, resolvida pela tabela `venda`).
+A biblioteca deseja informatizar o cadastro de alunos e o registro dos empréstimos realizados. As informações usadas nos relatórios são:
 
-## Modelo Entidade-Relacionamento (MER)
+- **Aluno:** nome, e-mail e curso
+- **Livro:** título, autor e ano de publicação
+- **Empréstimo:** data do empréstimo e data de devolução
 
-![MER - empresa_vendas](./mer.png)
-
-### Relacionamentos
-
-| Relacionamento | Cardinalidade | Descrição |
-|---|---|---|
-| cliente → venda | 1:N | Um cliente pode ter várias vendas |
-| produto → venda | 1:N | Um produto pode aparecer em várias vendas |
-
-## Estrutura das tabelas
-
-**cliente**
-
-| Coluna | Tipo | Restrições |
-|---|---|---|
-| id_cliente | INT | PK, AUTO_INCREMENT |
-| nome_cliente | VARCHAR(100) | NOT NULL |
-| email_cliente | VARCHAR(100) | NOT NULL, UNIQUE |
-| telefone_cliente | VARCHAR(15) | NOT NULL |
-
-**produto**
-
-| Coluna | Tipo | Restrições |
-|---|---|---|
-| id_produto | INT | PK, AUTO_INCREMENT |
-| nome_produto | VARCHAR(100) | NOT NULL, UNIQUE |
-| preco_produto | DECIMAL(10,2) | NOT NULL |
-
-**venda**
-
-| Coluna | Tipo | Restrições |
-|---|---|---|
-| id_venda | INT | PK, AUTO_INCREMENT |
-| id_cliente | INT | NOT NULL, FK → cliente(id_cliente) |
-| id_produto | INT | NOT NULL, FK → produto(id_produto) |
-| qtd_vendida | INT | NOT NULL |
-| dt_venda | DATE | NOT NULL |
-
-## Script SQL
-
-### 1. Criação do banco e das tabelas
-
-```sql
-CREATE DATABASE empresa_vendas;
-
-USE empresa_vendas;
-
-CREATE TABLE cliente (
-    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
-    nome_cliente VARCHAR(100) NOT NULL,
-    email_cliente VARCHAR(100) NOT NULL UNIQUE,
-    telefone_cliente VARCHAR(15) NOT NULL
-);
-
-CREATE TABLE produto (
-    id_produto INT PRIMARY KEY AUTO_INCREMENT,
-    nome_produto VARCHAR(100) NOT NULL,
-    preco_produto DECIMAL(10, 2) NOT NULL
-);
-
-CREATE TABLE venda (
-    id_venda INT PRIMARY KEY AUTO_INCREMENT,
-    id_cliente INT NOT NULL,
-    id_produto INT NOT NULL,
-    qtd_vendida INT NOT NULL,
-    dt_venda DATE NOT NULL,
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
-);
-```
-
-### 2. Inserção de dados
-
-```sql
-INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
-VALUES ('Ana Beatriz silva', 'ana.beatriz.silva@hotmail.com', '(11) 98742-3156');
-
-INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
-VALUES ('Gabriel Henrique Souza', 'gabriel.henrique.souza@gmail.com', '(21) 97631-4285');
-
-INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
-VALUES ('Lucas Almeida Santos', 'lucas.almeidasantos@outlook.com', '(31) 99158-6732');
-
-INSERT INTO produto (nome_produto, preco_produto)
-VALUES ('Notebook Dell', 3500.00);
-
-INSERT INTO produto (nome_produto, preco_produto)
-VALUES ('Smartphone Sansung', 2500.00);
-
-INSERT INTO produto (nome_produto, preco_produto)
-VALUES ('Tablet Apple', 2750.00);
-
-INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
-VALUES (1, 1, 1, '2024-06-01');
-
-INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
-VALUES (3, 2, 2, '2024-06-02');
-
-INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
-VALUES (2, 3, 1, '2024-06-03');
-```
-
-### 3. Alteração de estrutura (constraint)
-
-Garante que não existam dois produtos com o mesmo nome:
-
-```sql
-ALTER TABLE produto
-ADD CONSTRAINT uk_produto_unico UNIQUE (nome_produto);
-```
-
-### 4. Correções nos dados (UPDATE)
-
-```sql
--- Corrige a capitalização do nome do cliente
-UPDATE cliente
-SET nome_cliente = 'Ana Beatriz Silva'
-WHERE id_cliente = 1;
-
--- Corrige o erro de digitação no nome do produto
-UPDATE produto
-SET nome_produto = 'Smartphone Samsung'
-WHERE id_produto = 2;
-
--- Atualiza o preço do produto
-UPDATE produto
-SET preco_produto = 4500.00
-WHERE id_produto = 3;
-
--- Corrige o e-mail do cliente
-UPDATE cliente
-SET email_cliente = 'lucas.almeida.santos@outlook.com'
-WHERE id_cliente = 3;
-```
-
-## Como executar
-
-1. Abra o MySQL (Workbench, terminal ou outro cliente).
-2. Execute os blocos do script na ordem (1 → 4).
-3. Confira o resultado:
-
-```sql
-SHOW TABLES;
-DESCRIBE venda;
-
-SELECT * FROM cliente;
-SELECT * FROM produto;
-SELECT * FROM venda;
-```
-
-4. (Opcional) Consulta juntando as três tabelas:
-
-```sql
-SELECT v.id_venda,
-       c.nome_cliente,
-       p.nome_produto,
-       v.qtd_vendida,
-       p.preco_produto * v.qtd_vendida AS total,
-       v.dt_venda
-FROM venda v
-JOIN cliente c ON c.id_cliente = v.id_cliente
-JOIN produto p ON p.id_produto = v.id_produto;
-```
+**Regra de negócio:** cada aluno pode realizar vários empréstimos, porém cada empréstimo pertence a apenas um aluno.
 
 ## Tecnologias
 
 - MySQL
-- Modelagem MER (diagrama)
+- SQL (DDL e DML)
+
+## Estrutura do banco
+
+Nome do banco: `db_livros`
+
+### Tabela `aluno`
+
+| Coluna | Tipo | Restrições |
+|---|---|---|
+| id_aluno | INT | PK, AUTO_INCREMENT |
+| nome | VARCHAR(100) | NOT NULL |
+| email_aluno | VARCHAR(100) | NOT NULL, UNIQUE |
+| curso_aluno | VARCHAR(100) | NOT NULL |
+
+### Tabela `livro`
+
+| Coluna | Tipo | Restrições |
+|---|---|---|
+| id_livro | INT | PK, AUTO_INCREMENT |
+| etitulo | VARCHAR(100) | NOT NULL, UNIQUE |
+| autor | VARCHAR(100) | NOT NULL |
+| ano_publicacao | DATE | NOT NULL |
+
+### Tabela `emprestimo`
+
+| Coluna | Tipo | Restrições |
+|---|---|---|
+| id_emprestimo | INT | PK, AUTO_INCREMENT |
+| id_aluno | INT | NOT NULL, FK → aluno(id_aluno) |
+| id_livro | INT | NOT NULL, FK → livro(id_livro), UNIQUE |
+| data_emprestimo | DATE | NOT NULL |
+| data_devolucao | DATE | NOT NULL |
+
+## Relacionamentos
+
+- **aluno (1) → (N) emprestimo:** um aluno pode ter vários empréstimos; cada empréstimo pertence a um único aluno.
+- **livro (1) → (N) emprestimo:** um livro é referenciado pelos empréstimos registrados.
+
+```
+aluno 1 ────< emprestimo >──── 1 livro
+```
+
+## Chaves únicas (UNIQUE)
+
+| Constraint | Tabela | Coluna | Finalidade |
+|---|---|---|---|
+| uk_aluno_email | aluno | email_aluno | Impede dois alunos com o mesmo e-mail |
+| uk_livro | livro | etitulo | Impede o cadastro duplicado do mesmo título |
+| uk_emprestimo | emprestimo | id_livro | Impede que o mesmo livro apareça em mais de um empréstimo |
+
+> **Atenção:** a chave `uk_emprestimo` em `id_livro` faz com que cada livro possa ser emprestado apenas uma vez no histórico. Para permitir novos empréstimos do mesmo livro, use uma chave composta, por exemplo `UNIQUE (id_aluno, id_livro, data_emprestimo)`.
+
+## Como executar
+
+1. Abra o MySQL Workbench (ou o cliente MySQL de sua preferência).
+2. Execute o script SQL completo, na ordem:
+   1. Criação do banco e das tabelas
+   2. Inserção dos dados de exemplo
+   3. Criação das chaves únicas
+3. Consulte os dados com o relatório abaixo.
+
+## Dados de exemplo
+
+**Alunos**
+
+| Nome | E-mail | Curso |
+|---|---|---|
+| João Silva | joao.silva@email.com | Engenharia |
+| Maria Souza | maria.souza@email.com | Medicina |
+| Pedro Oliveira | pedro.oliveira@email.com | Direito |
+
+**Livros**
+
+| Título | Autor | Publicação |
+|---|---|---|
+| O Senhor dos Anéis | J.R.R. Tolkien | 1954-07-29 |
+| 1984 | George Orwell | 1949-06-08 |
+| Dom Casmurro | Machado de Assis | 1899-01-01 |
+
+**Empréstimos**
+
+| Aluno | Livro | Empréstimo | Devolução |
+|---|---|---|---|
+| João Silva | O Senhor dos Anéis | 2023-01-15 | 2023-02-15 |
+| Maria Souza | 1984 | 2023-02-01 | 2023-03-01 |
+| Pedro Oliveira | Dom Casmurro | 2023-03-10 | 2023-04-10 |
+
+## Consulta de relatório
+
+```sql
+SELECT a.nome, a.email_aluno, a.curso_aluno,
+       l.etitulo, l.autor, l.ano_publicacao,
+       e.data_emprestimo, e.data_devolucao
+FROM emprestimo e
+JOIN aluno a ON a.id_aluno = e.id_aluno
+JOIN livro l ON l.id_livro = e.id_livro;
+```
+
+## Teste das chaves únicas
+
+O comando abaixo deve falhar com o erro `Duplicate entry`, pois o e-mail já está cadastrado:
+
+```sql
+INSERT INTO aluno (nome, email_aluno, curso_aluno)
+VALUES ('João Teste', 'joao.silva@email.com', 'Direito');
+```
