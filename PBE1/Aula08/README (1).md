@@ -18,6 +18,7 @@ Aula08/
 ├── dados/
 │   ├── clientes.json
 │   └── pedidos.json
+├── imagens/
 ├── src/
 │   └── controllers/
 │       ├── cliente.js
@@ -37,16 +38,18 @@ Aula08/
 | `src/controllers/pedido.js` | Lógica de CRUD de pedidos |
 | `dados/clientes.json` | Dados dos clientes |
 | `dados/pedidos.json` | Dados dos pedidos |
+| `imagens/` | Prints dos testes usados neste README |
 
 ## Como executar
 
 1. Instale as dependências:
 
 ```bash
-npm install -y
+npm init -y
 
-npm install i express cors
+npm install express cors
 ```
+
 2. Inicie o servidor:
 
 ```bash
@@ -81,7 +84,7 @@ npm run dev
 | PUT | `/pedidos/:id` | Altera um pedido existente |
 | DELETE | `/pedidos/:id` | Exclui um pedido |
 
-> A função `subtotal` existe no controller de pedidos, mas não tem rota definida possui rota.
+> A função `subtotal` existe no controller de pedidos, mas ainda não possui rota definida.
 
 ## Modelos de dados
 
@@ -205,6 +208,30 @@ Exemplo de item retornado:
 | 201 | Registro criado |
 | 404 | Registro não encontrado |
 | 500 | Erro interno do servidor |
+
+## Evidências de testes
+
+Testes feitos com a extensão **Thunder Client** (VS Code), com o servidor rodando em `http://localhost:3000`.
+
+### Rota inicial (GET `/`)
+
+![Teste da rota inicial](imagens/01-rota-inicial.png)
+
+### Listar clientes (GET `/clientes`)
+
+![Teste de listagem de clientes](imagens/02-listar-clientes.png)
+
+### Criar cliente (POST `/clientes`)
+
+![Teste de criação de cliente](imagens/03-criar-cliente.png)
+
+### Alterar cliente (PUT `/clientes/4`)
+
+![Teste de alteração de cliente](imagens/04-alterar-cliente.png)
+
+### Excluir cliente (DELETE `/clientes/4`)
+
+![Teste de exclusão de cliente](imagens/05-excluir-cliente.png)
 
 ## Observações
 
