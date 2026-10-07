@@ -1,6 +1,6 @@
 # Atividade 1 — Compra de Produtos (Banco de Dados)
 
-Modelagem e criação de um banco de dados relacional para registrar vendas de produtos a clientes.
+Modelagem e criação de um banco de dados relacional (`empresa_vendas`) para registrar vendas de produtos a clientes, incluindo carga inicial de dados e atualizações.
 
 ## Descrição do problema
 
@@ -20,7 +20,7 @@ Modelagem e criação de um banco de dados relacional para registrar vendas de p
 | cliente → venda | 1:N | Um cliente pode ter várias vendas |
 | produto → venda | 1:N | Um produto pode aparecer em várias vendas |
 
-### Tabelas
+## Estrutura das tabelas
 
 **cliente**
 
@@ -51,6 +51,8 @@ Modelagem e criação de um banco de dados relacional para registrar vendas de p
 
 ## Script SQL
 
+### 1. Criação do banco e das tabelas
+
 ```sql
 CREATE DATABASE empresa_vendas;
 
@@ -65,7 +67,7 @@ CREATE TABLE cliente (
 
 CREATE TABLE produto (
     id_produto INT PRIMARY KEY AUTO_INCREMENT,
-    nome_produto VARCHAR(100) NOT NULL UNIQUE,
+    nome_produto VARCHAR(100) NOT NULL,
     preco_produto DECIMAL(10, 2) NOT NULL
 );
 
@@ -80,15 +82,97 @@ CREATE TABLE venda (
 );
 ```
 
+### 2. Inserção de dados
+
+```sql
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ('Ana Beatriz silva', 'ana.beatriz.silva@hotmail.com', '(11) 98742-3156');
+
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ('Gabriel Henrique Souza', 'gabriel.henrique.souza@gmail.com', '(21) 97631-4285');
+
+INSERT INTO cliente (nome_cliente, email_cliente, telefone_cliente)
+VALUES ('Lucas Almeida Santos', 'lucas.almeidasantos@outlook.com', '(31) 99158-6732');
+
+INSERT INTO produto (nome_produto, preco_produto)
+VALUES ('Notebook Dell', 3500.00);
+
+INSERT INTO produto (nome_produto, preco_produto)
+VALUES ('Smartphone Sansung', 2500.00);
+
+INSERT INTO produto (nome_produto, preco_produto)
+VALUES ('Tablet Apple', 2750.00);
+
+INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
+VALUES (1, 1, 1, '2024-06-01');
+
+INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
+VALUES (3, 2, 2, '2024-06-02');
+
+INSERT INTO venda (id_cliente, id_produto, qtd_vendida, dt_venda)
+VALUES (2, 3, 1, '2024-06-03');
+```
+
+### 3. Alteração de estrutura (constraint)
+
+Garante que não existam dois produtos com o mesmo nome:
+
+```sql
+ALTER TABLE produto
+ADD CONSTRAINT uk_produto_unico UNIQUE (nome_produto);
+```
+
+### 4. Correções nos dados (UPDATE)
+
+```sql
+-- Corrige a capitalização do nome do cliente
+UPDATE cliente
+SET nome_cliente = 'Ana Beatriz Silva'
+WHERE id_cliente = 1;
+
+-- Corrige o erro de digitação no nome do produto
+UPDATE produto
+SET nome_produto = 'Smartphone Samsung'
+WHERE id_produto = 2;
+
+-- Atualiza o preço do produto
+UPDATE produto
+SET preco_produto = 4500.00
+WHERE id_produto = 3;
+
+-- Corrige o e-mail do cliente
+UPDATE cliente
+SET email_cliente = 'lucas.almeida.santos@outlook.com'
+WHERE id_cliente = 3;
+```
+
 ## Como executar
 
 1. Abra o MySQL (Workbench, terminal ou outro cliente).
-2. Copie e execute o script acima.
-3. Confira as tabelas criadas:
+2. Execute os blocos do script na ordem (1 → 4).
+3. Confira o resultado:
 
 ```sql
 SHOW TABLES;
 DESCRIBE venda;
+
+SELECT * FROM cliente;
+SELECT * FROM produto;
+SELECT * FROM venda;
+```
+
+4. (Opcional) Consulta juntando as três tabelas:
+
+```sql
+SELECT v.id_venda,
+       c.nome_cliente,
+       p.nome_produto,
+       v.qtd_vendida,
+       p.preco_produto * v.qtd_vendida AS total,
+       v.dt_venda
+FROM venda v
+JOIN cliente c ON c.id_cliente = v.id_cliente
+JOIN produto p ON p.id_produto = v.id_produto;
 ```
 
 ## Tecnologias
