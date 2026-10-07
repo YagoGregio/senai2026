@@ -161,20 +161,6 @@ SELECT * FROM produto;
 SELECT * FROM venda;
 ```
 
-4. (Opcional) Consulta juntando as três tabelas:
-
-```sql
-SELECT v.id_venda,
-       c.nome_cliente,
-       p.nome_produto,
-       v.qtd_vendida,
-       p.preco_produto * v.qtd_vendida AS total,
-       v.dt_venda
-FROM venda v
-JOIN cliente c ON c.id_cliente = v.id_cliente
-JOIN produto p ON p.id_produto = v.id_produto;
-```
-
 ## Tecnologias
 
 - MySQL
