@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Minha Lojinha</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Minha Lojinha</h1>
+        <p>Escolha seus produtos!</p>
+    </header>
+
+    <main>
+        <section class="produtos">
+            <h2>Produtos Disponíveis</h2>
+
+            <div class="produto">
+                <h3>Fone de Ouvido</h3>
+                <img src="/assets/logitech.jpg" alt="Fone de Ouvido">
+                <p>Preço: R$ 799,99</p>
+
+                <button onclick="adicionarCarrinho('Fone de Ouvido', 799.99)">Adicionar ao Carrinho
+                </button>
+            </div>
+
+            <div class="produto">
+                <h3>Mouse Logitech</h3>
+                <img src="/assets/gprosuperstrike.jpg" alt="Mouse Logitech">
+                <p>Preço: R$ 299,99</p>
+                <button onclick="adicionarCarrinho('Mouse Logitech', 299.99)">Adicionar ao Carrinho</button>
+            </div>
+
+            <div>
+                <h3>Teclado Mecânico</h3>
+                <img src="/assets/teclado.jpg" alt="Teclado Mecânico">
+                <p>Preço: R$ 999,99</p>
+                <button onclick="adicionarCarrinho('Teclado Mecânico', 999.99)">Adicionar ao Carrinho</button>
+            </div>
+        </section>
+
+        <section class="carrinho">
+            <h2>Carrinho de Compras</h2>
+            <ul id="listaCarrinho"></ul>
+
+            <h3 id="total">Total: R$ 0,00</h3>
+            <button onclick="finalizarCompra()">Finalizar Compra</button>
+
+            <button onclick="limparTotal()">Limpar Carrinho</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
