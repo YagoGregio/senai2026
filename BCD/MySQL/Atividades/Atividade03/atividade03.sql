@@ -27,7 +27,7 @@ ORDER BY data_cadastro ASC;
 /*9.*/ SELECT * FROM venda;
 
 /*10.*/ SELECT id_produto,data_venda,preco_unitario_venda,forma_pagamento 
-FROM venda WHERE;
+FROM venda;
 
 /*11.*/ SELECT id_produto,data_venda,quantidade,status_venda
-FROM venda WHERE;
+FROM venda;
