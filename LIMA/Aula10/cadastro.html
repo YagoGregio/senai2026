@@ -1,75 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos cadastrados: </title>
+    <title>Cadastro de Produto</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <main class="container">
         <header class="cabecalho">
             <div>
                 <h1>Cadastro de Produtos</h1>
-                <p class="substitulo">Preencha os dados do produtos abixo.</p>
+                <p class="subtitulo">Preencha os dados do produto abaixo.</p>
             </div>
 
-            <button type="button" class="botao-sair" onclick="window.location.href='login.html'">sair</button>
+            <button type="button" class="botao-sair" onclick="window.location.href='login.html'">Sair</button>
         </header>
-    
 
-    <form id="formProduto">
-        <div class="campo">
-            <label for="codigoBarras" placeholder="Ex: 781241253" required></label>
-            <input type="text" id="descricaoProduto" placeholder="Nome do Produto" required>
-        </div>
-
-        <div class="grade-precos">
+        <form id="formProduto">
             <div class="campo">
-                <label for="precoCusto">Preço de Custo (R$)</label>
-                <input type="number" id="precoCusto" min="0.01" step="0.01" placeholder="0,00" required>
+                <label for="codigoBarras">Código de Barras</label>
+                <input type="text" id="codigoBarras" placeholder="Ex: 789431535" required>
             </div>
+
             <div class="campo">
-                <label for="precoVenda">Preço de venda (R$)</label>
-                <input type="number" id="precoVenda" min="0.01" step="0.01" placeholder="0,00" required>
+                <label for="descricaoProduto">Descrição do Produto</label>
+                <input type="text" id="descricaoProduto" placeholder="Nome do Produto" required>
             </div>
-        </div>
-        <div class="campo campo-margem">
-            <label for="margemLucro">Margem sobre o custo</label>
-            <input type="text" id="margemLucro" value="0,00%" readonly>
-            <small>calculada automaticamente conforme os preços.</small>
-        </div>
 
-        <fieldset>
-            <legend>Tipo de Unidade</legend>
-
-            <div class="opcoes-unidade">
-                <label class="opcao">
-                    <input type="radio" name="unidade" value="UN" required>
-                    <span>UN - Unidade</span>
-                </label>
-
-                <label class="opcao">
-                    <input type="radio" name="unidade" value="KG" required>
-                    <span>KG - Quilograma</span>
-                </label>
-
-                <label class="opcao">
-                    <input type="radio" name="unidade" value="LT" required>
-                    <span>LT - Litro</span>
-                </label>
+            <div class="grade-precos">
+                <div class="campo">
+                    <label for="precoCusto">Preço de Custo (R$)</label>
+                    <input type="number" id="precoCusto" min="0.01" step="0.01" placeholder="0,00" required>
+                </div>
+                <div class="campo">
+                    <label for="precoVenda">Preço de Venda (R$)</label>
+                    <input type="number" id="precoVenda" min="0.01" step="0.01" placeholder="0,00" required>
+                </div>
             </div>
-        </fieldset>
 
-        <div class="botoes">
-            <button type="submit" class="botao-principal">Cadastrar Produtos</button>
+            <div class="campo campo-margem">
+                <label for="margemLucro">Margem sobre o custo</label>
+                <input type="text" id="margemLucro" value="0,00%" readonly>
+                <small>calculada automaticamente conforme os preços</small>
+            </div>
 
-            <button type="reset" class="botao-secundario">Limpar</button>
-        </div>
+            <fieldset>
+                <legend>Tipo de Unidade</legend>
 
-        <p id="mensagemProduto"></p>
-    </form>
+                <div class="opcoes-unidade">
+                    <label class="opcao">
+                        <input type="radio" name="unidade" value="UN" required>
+                        <span>UN - Unidade</span>
+                    </label>
+
+                    <label class="opcao">
+                        <input type="radio" name="unidade" value="LT" required>
+                        <span>LT - Litro</span>
+                    </label>
+
+                    <label class="opcao">
+                        <input type="radio" name="unidade" value="KG" required>
+                        <span>KG - Quilograma</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <div class="botoes">
+                <button type="submit" class="botao-principal">Cadastrar Produtos</button>
+
+                <button type="reset" class="botao-secundario">Limpar</button>
+            </div>
+
+            <p id="mensagemProduto"></p>
+        </form>
     </main>
     <script src="script.js"></script>
 </body>
+
 </html>
