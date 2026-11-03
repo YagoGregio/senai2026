@@ -23,7 +23,19 @@ const listar = async (req, res) => {
 
 };
 
+const buscar = async (req, res) => {
+    try {
+        const id_cliente = req.params.id;
+
+        const infoCliente = await cliente.buscar(id_cliente);
+
+        res.status(200).json(infoCliente).end();
+    } catch (err) {
+        res.status(500).json({ error: err.message }).end();
+    }
+};
 module.exports = {
     cadastrar,
-    listar
+    listar,
+    buscar
 }

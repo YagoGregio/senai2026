@@ -20,7 +20,11 @@ const listar = async (req, res) => {
   return clientes;
 };
 
-const buscar = async (req, res) => {};
+const buscar = async (id_cliente) => {
+const [result] = await con.query("SELECT * FROM clientes WHERE id_cliente = ?;", [id_cliente]);
+
+  return result;
+};
 
 const apagar = async (req, res) => {};
 
