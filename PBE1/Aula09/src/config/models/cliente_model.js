@@ -1,45 +1,38 @@
-const con = require('../db');
+const con = require("../db");
 
-const cadastrar = async ({nome, cpf, email, senha}) => {
+const cadastrar = async ({ nome, cpf, email, senha }) => {
+  const [result] = await con.query(
+    "INSERT INTO clientes VALUES (DEFAULT, ?, ?, ?, ?);",
+    [nome, cpf, email, senha],
+  );
 
-    const[result] = await con.query(
-        "INSERT INTO usuarios VALUES (DEFAULT, ?, ?, ?, ?);",
-        [nome, cpf,email,senha]
-    );
+  return {
+    id: result.insertId,
+    nome: nome,
+    cpf: cpf,
+    email: email,
+  };
+};
 
-    return{
-        id: result.insertId,
-        nome: nome,
-        cpf: cpf,
-        email: email
-    }
-}
+const listar = async (req, res) => {
+  const [clientes] = await con.query("SELECT * FROM clientes;");
 
-const listar = (req,res) => {
+  return clientes;
+};
 
-}
+const buscar = async (req, res) => {};
 
-const buscar = (req,res) => {
+const apagar = async (req, res) => {};
 
-}
+const atualizar = async (req, res) => {};
 
-const apagar = (req, res) =>{
-
-}
-
-const atualizar = (req,res) =>{
-
-}
-
-const alterar = (req,res) =>{
-
-}
+const alterar = async (req, res) => {};
 
 module.exports = {
-    cadastrar,
-    listar,
-    buscar,
-    apagar,
-    atualizar,
-    alterar
-}
+  cadastrar,
+  listar,
+  buscar,
+  apagar,
+  atualizar,
+  alterar,
+};

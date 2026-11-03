@@ -12,6 +12,18 @@ const cadastrar = async (req, res) => {
     }
 };
 
+const listar = async (req, res) => {
+    try {
+        let clientes = await cliente.listar();
+
+        res.status(200).json(clientes).end();
+    } catch (err) {
+        res.status(500).json({ error: err.message }).end();
+    }
+
+};
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar
 }

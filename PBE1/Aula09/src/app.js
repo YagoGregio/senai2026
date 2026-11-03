@@ -5,12 +5,12 @@ const express = require('express');
 
 const app = express();
 
-const usuarioRoutes = require('./config/routes/cliente_routes');
+const clienteRoutes = require('./config/routes/cliente_routes');
 
 // Permite que a API receba JSON no corpo das requisições
 app.use(express.json());
 
-app.use('/cliente', usuarioRoutes);
+app.use('/cliente', clienteRoutes);
 // Rota de teste
 app.get('/', (req, res) => {
   res.json({ mensagem: 'API funcionando!' });
