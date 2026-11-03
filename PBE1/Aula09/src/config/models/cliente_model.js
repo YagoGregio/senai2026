@@ -15,20 +15,29 @@ const cadastrar = async ({ nome, cpf, email, senha }) => {
 };
 
 const listar = async (req, res) => {
-  const [clientes] = await con.query("SELECT * FROM clientes;");
+  const [clientes] = await con.query("SELECT nome,email FROM clientes;");
 
   return clientes;
 };
 
 const buscar = async (id_cliente) => {
-const [result] = await con.query("SELECT * FROM clientes WHERE id_cliente = ?;", [id_cliente]);
+  const [result] = await con.query(
+    "SELECT * FROM clientes WHERE id_cliente = ?;",
+    [id_cliente],
+  );
 
   return result;
 };
 
-const apagar = async (req, res) => {};
+const apagar = async (id_cliente) => {
+  const [result] = await con.query(
+    "DELETE FROM clientes WHERE id_cliente = ?;",
+    [id_cliente],
+  );
 
-const atualizar = async (req, res) => {};
+  return result.affectedRows > 0; // Retorna true se algum registro foi deletado, caso contrário, retorna false
+};
+
 
 const alterar = async (req, res) => {};
 
@@ -37,6 +46,5 @@ module.exports = {
   listar,
   buscar,
   apagar,
-  atualizar,
-  alterar,
+  alterar
 };
