@@ -1,7 +1,6 @@
-const con = required('../config/db.js')
+const con = require('../db');
 
 const cadastrar = async ({nome, cpf, email, senha}) => {
-    const {nome,cpf,email,senha} = req.body;
 
     const[result] = await con.query(
         "INSERT INTO usuarios VALUES (DEFAULT, ?, ?, ?, ?);",
