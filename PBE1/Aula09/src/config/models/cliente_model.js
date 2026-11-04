@@ -15,7 +15,7 @@ const cadastrar = async ({ nome, cpf, email, senha }) => {
 };
 
 const listar = async (req, res) => {
-  const [clientes] = await con.query("SELECT nome,email FROM clientes;");
+  const [clientes] = await con.query("SELECT id_cliente,nome,cpf,email FROM clientes;");
 
   return clientes;
 };

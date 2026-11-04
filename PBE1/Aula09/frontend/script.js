@@ -1,5 +1,7 @@
 const BASE_URL = "http://localhost:3000";
 
+const formCadastro = document.querySelector("#cadastro");
+
 async function listarClientes() {
   const response = await fetch(`${BASE_URL}/cliente/listar`);
 
@@ -9,14 +11,14 @@ async function listarClientes() {
 
     const tbody = document.querySelector("tbody");
 
-    listaClientes.forEach((cliente) => {
+    listaClientes.forEach((clientes) => {
       const linha = document.createElement("tr");
 
       const colunas = `
-        <td>${cliente.id}</td>
-        <td>${cliente.nome}</td>
-        <td>${cliente.cpf}</td>
-        <td>${cliente.email}</td>
+        <td>${clientes.id_cliente}</td>
+        <td>${clientes.nome}</td>
+        <td>${clientes.cpf}</td>
+        <td>${clientes.email}</td>
         `;
 
         linha.innerHTML = colunas;
@@ -27,5 +29,21 @@ async function listarClientes() {
   }
   console.log(response);
 }
+
+formCadastro.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const nome = document.querySelector("#nome").value;
+    const cpf = document.querySelector("#cpf").value;
+    const email = document.querySelector("#email").value;
+
+    const cliente = {
+        nome: nome,
+        cpf: cpf,
+        email: email
+    };
+
+    console.log(cliente);
+});
 
 listarClientes();
