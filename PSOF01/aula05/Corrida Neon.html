@@ -1,0 +1,664 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Corrida Neon</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;500&display=swap">
+<style>
+/* Layout: canvas 3D em tela cheia, HUD no topo, painéis de início, pausa e fim no centro, botões de toque embaixo. Visual escuro fixo, de propósito. */
+:root {
+  --bg: #0a0b14;
+  --panel: rgba(10, 12, 30, 0.82);
+  --line: rgba(90, 114, 255, 0.4);
+  --ink: #e8ecff;
+  --muted: #9aa2cc;
+  --accent: #2ee6d6;
+  --pink: #ff2fd0;
+  --danger: #ff3d6e;
+  --coin: #ffc233;
+  --display: "Chakra Petch", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+.app { position: relative; height: 100%; overflow: hidden; background: var(--bg); }
+.stage { position: absolute; inset: 0; touch-action: none; }
+.stage canvas { display: block; width: 100%; height: 100%; }
+
+.ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding-block: 14px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  pointer-events: none;
+}
+.hud { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; min-width: 0; }
+.stats div { min-width: 0; }
+.stats dt { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.stats dd { margin: 0; font: 700 22px/1.1 var(--display); font-variant-numeric: tabular-nums; text-shadow: 0 0 14px rgba(46, 230, 214, 0.35); }
+.stats dd small { font: 500 12px var(--body); color: var(--muted); margin-left: 2px; }
+.stats .coin dd { color: var(--coin); }
+
+.chip {
+  pointer-events: auto;
+  font: 500 12px var(--body);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.14); }
+
+.panel {
+  pointer-events: auto;
+  margin: auto;
+  width: min(440px, 100%);
+  box-sizing: border-box;
+  padding: 22px 22px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 40px rgba(46, 73, 255, 0.25);
+}
+h1, h2 { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; line-height: 1.05; text-wrap: balance; }
+h1 { font-size: clamp(32px, 9vw, 46px); font-weight: 700; }
+h1 span { color: var(--accent); }
+h2 { font-size: 28px; font-weight: 700; }
+.panel p { margin: 0 0 14px; color: var(--muted); max-width: 62ch; }
+
+.legend { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; }
+.legend li { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.sw { flex: none; width: 22px; height: 12px; border-radius: 2px; border: 1px solid currentColor; }
+.sw.low { color: var(--pink); background: rgba(255, 47, 208, 0.35); }
+.sw.high { color: var(--danger); background: rgba(255, 61, 110, 0.4); height: 20px; }
+.sw.coin { color: var(--coin); background: rgba(255, 194, 51, 0.5); width: 14px; height: 14px; transform: rotate(45deg); margin-inline: 4px; }
+
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0 0 16px; font-size: 13px; align-items: center; }
+.keys dt { white-space: nowrap; }
+.keys dd { margin: 0; color: var(--muted); }
+kbd {
+  font: 500 12px var(--body);
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+.hint-touch { display: none; }
+@media (pointer: coarse) { .hint-touch { display: block; } .keys { display: none; } }
+
+.btn {
+  width: 100%;
+  font: 700 16px var(--display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #03141a;
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  padding: 13px 22px;
+  cursor: pointer;
+}
+.btn:hover { background: #6af3e6; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin: 0 0 16px; }
+.results dt { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.results dd { margin: 0; font: 700 24px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.record { color: var(--coin); font-weight: 500; margin: 0 0 14px; }
+
+.touch { display: none; margin-top: auto; justify-content: space-between; align-items: flex-end; gap: 12px; }
+.touch .group { display: flex; gap: 12px; }
+.touch button {
+  pointer-events: auto;
+  width: 74px;
+  height: 74px;
+  font-size: 26px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.touch button:active { background: rgba(46, 230, 214, 0.28); }
+@media (pointer: coarse) { .ui[data-state="playing"] .touch { display: flex; } }
+</style>
+
+<div class="app">
+  <div id="stage" class="stage"></div>
+  <div id="ui" class="ui" data-state="ready">
+    <header class="hud">
+      <dl class="stats">
+        <div><dt>Distância</dt><dd><span id="hDist">0</span><small>m</small></dd></div>
+        <div class="coin"><dt>Moedas</dt><dd id="hCoins">0</dd></div>
+        <div><dt>Velocidade</dt><dd><span id="hSpeed">0</span><small>km/h</small></dd></div>
+        <div><dt>Recorde</dt><dd id="hBest">0</dd></div>
+      </dl>
+      <button id="muteBtn" class="chip" type="button">Som: ligado</button>
+    </header>
+
+    <section id="startPanel" class="panel">
+      <h1>Corrida <span>Neon</span></h1>
+      <p>Pilote pela pista, desvie dos blocos, pule as barreiras baixas e pegue moedas. A velocidade só aumenta.</p>
+      <ul class="legend">
+        <li><span class="sw low"></span> Barreira rosa: pule por cima</li>
+        <li><span class="sw high"></span> Bloco vermelho: troque de faixa</li>
+        <li><span class="sw coin"></span> Moeda: vale 50 pontos</li>
+      </ul>
+      <dl class="keys">
+        <dt><kbd>←</kbd> <kbd>→</kbd> ou <kbd>A</kbd> <kbd>D</kbd></dt><dd>Trocar de faixa</dd>
+        <dt><kbd>↑</kbd> <kbd>W</kbd> <kbd>Espaço</kbd></dt><dd>Pular</dd>
+        <dt><kbd>P</kbd> <kbd>M</kbd></dt><dd>Pausar e silenciar</dd>
+      </dl>
+      <p class="hint-touch">No celular, use os botões na tela ou deslize para os lados e para cima.</p>
+      <button id="startBtn" class="btn" type="button">Jogar</button>
+    </section>
+
+    <section id="pausePanel" class="panel" hidden>
+      <h2>Pausado</h2>
+      <button id="resumeBtn" class="btn" type="button">Continuar</button>
+    </section>
+
+    <section id="overPanel" class="panel" hidden>
+      <h2>Fim de corrida</h2>
+      <dl class="results">
+        <div><dt>Distância</dt><dd><span id="oDist">0</span> m</dd></div>
+        <div><dt>Moedas</dt><dd id="oCoins">0</dd></div>
+        <div><dt>Pontos</dt><dd id="oScore">0</dd></div>
+        <div><dt>Recorde</dt><dd id="oBest">0</dd></div>
+      </dl>
+      <p id="oRecord" class="record" hidden>Novo recorde!</p>
+      <button id="againBtn" class="btn" type="button">Jogar de novo</button>
+    </section>
+
+    <section id="nogl" class="panel" hidden>
+      <h2>3D indisponível</h2>
+      <p>O navegador não conseguiu iniciar o WebGL. Atualize o navegador ou ative a aceleração de hardware nas configurações e abra a página de novo.</p>
+    </section>
+
+    <div class="touch">
+      <div class="group">
+        <button id="tL" type="button" aria-label="Faixa à esquerda">◀</button>
+        <button id="tR" type="button" aria-label="Faixa à direita">▶</button>
+      </div>
+      <button id="tJ" type="button" aria-label="Pular">▲</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="game">
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var stage = $('stage'), ui = $('ui');
+  var startPanel = $('startPanel'), pausePanel = $('pausePanel'), overPanel = $('overPanel');
+
+  function noGL() { $('nogl').hidden = false; startPanel.hidden = true; }
+  if (!window.THREE) { noGL(); return; }
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias: true }); } catch (e) { noGL(); return; }
+
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.domElement.setAttribute('role', 'img');
+  renderer.domElement.setAttribute('aria-label', 'Jogo 3D Corrida Neon');
+  stage.appendChild(renderer.domElement);
+
+  var BG = 0x0a0b14;
+  var scene = new THREE.Scene();
+  scene.background = new THREE.Color(BG);
+  scene.fog = new THREE.Fog(BG, 35, 115);
+  var camera = new THREE.PerspectiveCamera(65, 1, 0.1, 400);
+  var camBaseY = 4, camBaseZ = 7, curFov = 65;
+
+  function resize() {
+    var w = Math.max(stage.clientWidth, 1), h = Math.max(stage.clientHeight, 1);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    var p = Math.max(0, 1 - camera.aspect);
+    camBaseY = 4 + p * 3;
+    camBaseZ = 7 + p * 12;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+  resize();
+
+  scene.add(new THREE.AmbientLight(0x7078ff, 0.7));
+  var sunLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  sunLight.position.set(3, 10, 5);
+  scene.add(sunLight);
+
+  var LANES = [-2.4, 0, 2.4];
+  var rand = function (a, b) { return a + Math.random() * (b - a); };
+
+  /* ---------- Pista ---------- */
+  function makeGridTexture() {
+    var c = document.createElement('canvas');
+    c.width = c.height = 128;
+    var g = c.getContext('2d');
+    g.fillStyle = '#0b0d24'; g.fillRect(0, 0, 128, 128);
+    g.fillStyle = 'rgba(75,99,255,0.28)';
+    g.fillRect(0, 0, 9, 128); g.fillRect(119, 0, 9, 128); g.fillRect(0, 0, 128, 9); g.fillRect(0, 119, 128, 9);
+    g.fillStyle = '#5a72ff';
+    g.fillRect(0, 0, 3, 128); g.fillRect(125, 0, 3, 128); g.fillRect(0, 0, 128, 3); g.fillRect(0, 125, 128, 3);
+    var t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return t;
+  }
+  var gridTex = makeGridTexture();
+  gridTex.repeat.set(7, 130);
+  gridTex.offset.x = 0.5;
+  var ground = new THREE.Mesh(new THREE.PlaneGeometry(8.4, 260), new THREE.MeshBasicMaterial({ map: gridTex }));
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.set(0, 0, -110);
+  scene.add(ground);
+
+  var floor = new THREE.Mesh(new THREE.PlaneGeometry(140, 260), new THREE.MeshBasicMaterial({ color: 0x070815 }));
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.set(0, -0.05, -110);
+  scene.add(floor);
+
+  var railMat = new THREE.MeshBasicMaterial({ color: 0x2ee6d6 });
+  [-4.3, 4.3].forEach(function (x) {
+    var r = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 260), railMat);
+    r.position.set(x, 0.09, -110);
+    scene.add(r);
+  });
+
+  function makeSunTexture() {
+    var c = document.createElement('canvas');
+    c.width = c.height = 256;
+    var g = c.getContext('2d');
+    var gr = g.createLinearGradient(0, 20, 0, 236);
+    gr.addColorStop(0, '#ffd23f'); gr.addColorStop(1, '#ff2fd0');
+    g.fillStyle = gr;
+    g.beginPath(); g.arc(128, 128, 108, 0, Math.PI * 2); g.fill();
+    g.globalCompositeOperation = 'destination-out';
+    for (var i = 0; i < 6; i++) g.fillRect(0, 140 + i * 16, 256, 2 + i * 1.6);
+    return new THREE.CanvasTexture(c);
+  }
+  var sun = new THREE.Mesh(new THREE.PlaneGeometry(80, 80),
+    new THREE.MeshBasicMaterial({ map: makeSunTexture(), transparent: true, fog: false, depthWrite: false }));
+  sun.position.set(0, 26, -230);
+  scene.add(sun);
+
+  var starPos = new Float32Array(300 * 3);
+  for (var s = 0; s < 300; s++) {
+    starPos[s * 3] = rand(-160, 160); starPos[s * 3 + 1] = rand(30, 130); starPos[s * 3 + 2] = rand(-300, -250);
+  }
+  var starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 1.6, sizeAttenuation: false, fog: false })));
+
+  /* ---------- Prédios laterais ---------- */
+  var boxGeo = new THREE.BoxGeometry(1, 1, 1);
+  boxGeo.translate(0, 0.5, 0);
+  var boxEdges = new THREE.EdgesGeometry(boxGeo);
+  var bMat = new THREE.MeshStandardMaterial({ color: 0x0e1230, roughness: 0.8, metalness: 0.1, emissive: 0x141b5a, emissiveIntensity: 0.25 });
+  var edgeMats = [0x2e49ff, 0xff2fd0, 0x2ee6d6].map(function (c) { return new THREE.LineBasicMaterial({ color: c }); });
+  var SPAN = 270, BUILDINGS = 40, buildings = [];
+  function styleBuilding(b, z) {
+    var w = rand(2, 6), h = rand(3, 18), d = rand(3, 7);
+    b.scale.set(w, h, d);
+    b.position.set(b.userData.side * (6 + w / 2 + rand(0, 9)), 0, z + rand(-2, 2));
+  }
+  for (var i = 0; i < BUILDINGS; i++) {
+    var grp = new THREE.Group();
+    grp.add(new THREE.Mesh(boxGeo, bMat));
+    grp.add(new THREE.LineSegments(boxEdges, edgeMats[i % 3]));
+    grp.userData.side = i % 2 ? 1 : -1;
+    styleBuilding(grp, 8 - i * (SPAN / BUILDINGS));
+    scene.add(grp);
+    buildings.push(grp);
+  }
+
+  /* ---------- Jogador ---------- */
+  var player = new THREE.Group();
+  var ship = new THREE.Group();
+  ship.position.y = 0.5;
+  var hullGeo = new THREE.ConeGeometry(0.55, 1.8, 4);
+  hullGeo.rotateX(-Math.PI / 2);
+  ship.add(new THREE.Mesh(hullGeo, new THREE.MeshStandardMaterial({ color: 0xdfe6ff, emissive: 0x2ee6d6, emissiveIntensity: 0.25, flatShading: true })));
+  var wing = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.07, 0.7), new THREE.MeshStandardMaterial({ color: 0x0e1a2a, emissive: 0x2ee6d6, emissiveIntensity: 0.7 }));
+  wing.position.z = 0.3;
+  ship.add(wing);
+  var glow = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 12), new THREE.MeshBasicMaterial({ color: 0x2ee6d6 }));
+  glow.position.z = 0.95;
+  ship.add(glow);
+  player.add(ship);
+  var shipLight = new THREE.PointLight(0x2ee6d6, 1.1, 9);
+  shipLight.position.set(0, 1.6, 0);
+  player.add(shipLight);
+  scene.add(player);
+
+  /* ---------- Obstáculos e moedas ---------- */
+  var lowGeo = new THREE.BoxGeometry(2, 0.9, 0.8), highGeo = new THREE.BoxGeometry(2, 2.4, 1.2);
+  var lowEdges = new THREE.EdgesGeometry(lowGeo), highEdges = new THREE.EdgesGeometry(highGeo);
+  var lowMat = new THREE.MeshStandardMaterial({ color: 0x3a0f3a, emissive: 0xff2fd0, emissiveIntensity: 0.55, roughness: 0.5 });
+  var highMat = new THREE.MeshStandardMaterial({ color: 0x3a0f18, emissive: 0xff3d6e, emissiveIntensity: 0.6, roughness: 0.5 });
+  var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+  var coinGeo = new THREE.OctahedronGeometry(0.38);
+  var coinMat = new THREE.MeshStandardMaterial({ color: 0xffc233, emissive: 0xffa000, emissiveIntensity: 0.8, metalness: 0.3, roughness: 0.3 });
+  var obstacles = [], coinList = [];
+
+  function addObstacle(kind, lane, z) {
+    var low = kind === 'low';
+    var h = low ? 0.9 : 2.4;
+    var m = new THREE.Mesh(low ? lowGeo : highGeo, low ? lowMat : highMat);
+    m.add(new THREE.LineSegments(low ? lowEdges : highEdges, lineMat));
+    m.position.set(LANES[lane], h / 2, z);
+    scene.add(m);
+    obstacles.push({ m: m, w: 2, d: low ? 0.8 : 1.2, h: h });
+  }
+  function addCoin(lane, y, z) {
+    var c = new THREE.Mesh(coinGeo, coinMat);
+    c.position.set(LANES[lane], y, z);
+    scene.add(c);
+    coinList.push(c);
+  }
+  function spawnRow() {
+    var z = -115, r = Math.random(), lane = Math.floor(Math.random() * 3), i;
+    if (r < 0.55) {
+      if (Math.random() < 0.18) {
+        for (i = 0; i < 3; i++) { addObstacle('low', i, z); addCoin(i, 2.0, z); }
+      } else {
+        var order = [0, 1, 2].sort(function () { return Math.random() - 0.5; });
+        var n = Math.random() < 0.35 ? 2 : 1;
+        for (i = 0; i < n; i++) addObstacle(Math.random() < 0.5 ? 'low' : 'high', order[i], z);
+      }
+    } else {
+      for (i = 0; i < 5; i++) addCoin(lane, 0.9, z - i * 2.2);
+    }
+  }
+
+  /* ---------- Partículas ---------- */
+  var pGeo = new THREE.BoxGeometry(0.18, 0.18, 0.18);
+  var pMats = {
+    cyan: new THREE.MeshBasicMaterial({ color: 0x2ee6d6 }),
+    pink: new THREE.MeshBasicMaterial({ color: 0xff2fd0 }),
+    gold: new THREE.MeshBasicMaterial({ color: 0xffc233 })
+  };
+  var particles = [];
+  function burst(x, y, z, mat, n, power) {
+    for (var i = 0; i < n; i++) {
+      var m = new THREE.Mesh(pGeo, mat);
+      m.position.set(x, y, z);
+      scene.add(m);
+      particles.push({ m: m, vx: rand(-1, 1) * power, vy: rand(0.2, 1) * power, vz: rand(-1, 1) * power, life: 1 });
+    }
+  }
+  function tickParticles(dt) {
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var p = particles[i];
+      p.vy -= 12 * dt;
+      p.m.position.x += p.vx * dt; p.m.position.y += p.vy * dt; p.m.position.z += p.vz * dt;
+      p.life -= dt * 1.2;
+      if (p.life <= 0 || p.m.position.y < 0) { scene.remove(p.m); particles.splice(i, 1); }
+      else p.m.scale.setScalar(p.life);
+    }
+  }
+
+  /* ---------- Som ---------- */
+  var ac = null, muted = false;
+  function audio() {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === 'suspended') ac.resume();
+    } catch (e) {}
+  }
+  function tone(f1, f2, dur, type, vol) {
+    if (!ac || muted) return;
+    try {
+      var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+      o.type = type;
+      o.frequency.setValueAtTime(f1, t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(f2, 1), t + dur);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t + dur);
+    } catch (e) {}
+  }
+  $('muteBtn').addEventListener('click', function () {
+    muted = !muted;
+    this.textContent = muted ? 'Som: desligado' : 'Som: ligado';
+  });
+
+  /* ---------- Estado do jogo ---------- */
+  var KEY = 'corrida-neon-recorde';
+  var best = 0;
+  try { best = parseInt(localStorage.getItem(KEY), 10) || 0; } catch (e) {}
+
+  var state = 'ready';
+  var speed = 16, overSpeed = 0, dist = 0, coins = 0, elapsed = 0, spawnAcc = 0;
+  var laneIdx = 1, px = 0, py = 0, vy = 0, shake = 0;
+  var hDist = $('hDist'), hCoins = $('hCoins'), hSpeed = $('hSpeed'), hBest = $('hBest');
+  hBest.textContent = best;
+
+  function score() { return Math.floor(dist) + coins * 50; }
+  function hud() {
+    hDist.textContent = Math.floor(dist);
+    hCoins.textContent = coins;
+    hSpeed.textContent = Math.round((state === 'ready' ? 0 : speed) * 3.6);
+  }
+
+  function clearWorld() {
+    obstacles.forEach(function (o) { scene.remove(o.m); }); obstacles.length = 0;
+    coinList.forEach(function (c) { scene.remove(c); }); coinList.length = 0;
+    particles.forEach(function (p) { scene.remove(p.m); }); particles.length = 0;
+  }
+
+  function setState(s) {
+    state = s;
+    ui.dataset.state = s;
+    startPanel.hidden = s !== 'ready';
+    pausePanel.hidden = s !== 'paused';
+    overPanel.hidden = true;
+    if (s === 'ready') $('startBtn').focus({ preventScroll: true });
+    if (s === 'paused') $('resumeBtn').focus({ preventScroll: true });
+    if (s === 'over') {
+      setTimeout(function () {
+        if (state !== 'over') return;
+        overPanel.hidden = false;
+        $('againBtn').focus({ preventScroll: true });
+      }, 700);
+    }
+  }
+
+  function startGame() {
+    if (state === 'playing') return;
+    audio();
+    clearWorld();
+    dist = 0; coins = 0; elapsed = 0; speed = 16; spawnAcc = 0;
+    laneIdx = 1; px = 0; py = 0; vy = 0; shake = 0;
+    player.visible = true;
+    hud();
+    setState('playing');
+  }
+  function pauseGame() { if (state === 'playing') setState('paused'); }
+  function resumeGame() { if (state === 'paused') setState('playing'); }
+
+  function crash() {
+    var sc = score();
+    var record = sc > best;
+    if (record) {
+      best = sc;
+      try { localStorage.setItem(KEY, String(best)); } catch (e) {}
+    }
+    hBest.textContent = best;
+    $('oDist').textContent = Math.floor(dist);
+    $('oCoins').textContent = coins;
+    $('oScore').textContent = sc;
+    $('oBest').textContent = best;
+    $('oRecord').hidden = !record;
+    overSpeed = speed;
+    shake = reduceMotion ? 0 : 0.6;
+    player.visible = false;
+    burst(px, 0.8 + py, 0, pMats.cyan, 22, 7);
+    burst(px, 0.8 + py, 0, pMats.pink, 14, 6);
+    tone(160, 30, 0.5, 'sawtooth', 0.12);
+    setState('over');
+  }
+
+  function moveLane(d) {
+    var n = Math.max(0, Math.min(2, laneIdx + d));
+    if (n !== laneIdx) { laneIdx = n; tone(400, 300, 0.06, 'triangle', 0.04); }
+  }
+  function jump() {
+    if (py <= 0.001) { vy = 9.5; tone(280, 520, 0.14, 'triangle', 0.07); }
+  }
+
+  /* ---------- Atualização por quadro ---------- */
+  function tickPlay(dt, dz) {
+    elapsed += dt;
+    speed = Math.min(16 + elapsed * 0.42, 40);
+    dist += dz;
+    spawnAcc += dz;
+    var gap = Math.max(15, 26 - elapsed * 0.2);
+    if (spawnAcc >= gap) { spawnAcc -= gap; spawnRow(); }
+
+    px += (LANES[laneIdx] - px) * Math.min(1, 14 * dt);
+    if (py > 0 || vy > 0) {
+      vy -= 26 * dt;
+      py += vy * dt;
+      if (py <= 0) { py = 0; vy = 0; }
+    }
+
+    for (var i = obstacles.length - 1; i >= 0; i--) {
+      var o = obstacles[i], z = o.m.position.z;
+      if (z > 10) { scene.remove(o.m); obstacles.splice(i, 1); continue; }
+      if (Math.abs(z) < o.d / 2 + 0.55 && Math.abs(o.m.position.x - px) < o.w / 2 + 0.35 && py < o.h - 0.08) {
+        crash();
+        return;
+      }
+    }
+    for (var j = coinList.length - 1; j >= 0; j--) {
+      var c = coinList[j], cz = c.position.z;
+      if (cz > 10) { scene.remove(c); coinList.splice(j, 1); continue; }
+      if (Math.abs(cz) < 1 && Math.abs(c.position.x - px) < 1.1 && Math.abs(c.position.y - (py + 0.6)) < 1.1) {
+        burst(c.position.x, c.position.y, c.position.z, pMats.gold, 7, 4);
+        scene.remove(c); coinList.splice(j, 1);
+        coins++;
+        tone(880, 1320, 0.12, 'square', 0.05);
+      }
+    }
+    hud();
+  }
+
+  function update(dt, t) {
+    var v = 0;
+    if (state === 'playing') v = speed;
+    else if (state === 'ready') v = 8;
+    else if (state === 'over') { overSpeed *= Math.max(0, 1 - 3.2 * dt); v = overSpeed; }
+    var dz = v * dt;
+
+    gridTex.offset.y = (gridTex.offset.y + dz / 2) % 1;
+    for (var i = 0; i < buildings.length; i++) {
+      var b = buildings[i];
+      b.position.z += dz;
+      if (b.position.z > 14) styleBuilding(b, b.position.z - SPAN);
+    }
+    for (var k = 0; k < obstacles.length; k++) obstacles[k].m.position.z += dz;
+    for (var q = 0; q < coinList.length; q++) { coinList[q].position.z += dz; coinList[q].rotation.y += dt * 3; }
+
+    if (state === 'playing') tickPlay(dt, dz);
+    tickParticles(dt);
+
+    player.position.set(px, py, 0);
+    ship.position.y = 0.5 + Math.sin(t * 5) * 0.05;
+    ship.rotation.z = (px - LANES[laneIdx]) * 0.12;
+    ship.rotation.x = vy * 0.03;
+    glow.scale.setScalar(1 + Math.sin(t * 30) * 0.15);
+
+    shake *= Math.max(0, 1 - 4 * dt);
+    var sx = (Math.random() - 0.5) * shake, sy = (Math.random() - 0.5) * shake;
+    camera.position.set(px * 0.4 + sx, camBaseY + sy + py * 0.15, camBaseZ);
+    camera.lookAt(px * 0.25, 1, -12);
+
+    var fov = 65 + (state === 'playing' && !reduceMotion ? (speed - 16) * 0.3 : 0);
+    if (Math.abs(fov - curFov) > 0.01) { curFov = fov; camera.fov = fov; camera.updateProjectionMatrix(); }
+  }
+
+  var last = performance.now();
+  function frame(now) {
+    requestAnimationFrame(frame);
+    var dt = Math.min((now - last) / 1000, 0.033);
+    last = now;
+    update(dt, now / 1000);
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- Controles ---------- */
+  window.addEventListener('keydown', function (e) {
+    var k = e.key;
+    if (k === 'm' || k === 'M') { $('muteBtn').click(); return; }
+    if (state === 'ready' || state === 'over') {
+      if (k === 'Enter' || k === ' ') {
+        e.preventDefault();
+        if (state === 'over' && overPanel.hidden) return;
+        startGame();
+      }
+      return;
+    }
+    if (state === 'paused') {
+      if (k === 'p' || k === 'P' || k === 'Escape' || k === 'Enter' || k === ' ') { e.preventDefault(); resumeGame(); }
+      return;
+    }
+    if (k === 'ArrowLeft' || k === 'a' || k === 'A') { e.preventDefault(); moveLane(-1); }
+    else if (k === 'ArrowRight' || k === 'd' || k === 'D') { e.preventDefault(); moveLane(1); }
+    else if (k === 'ArrowUp' || k === 'w' || k === 'W' || k === ' ') { e.preventDefault(); jump(); }
+    else if (k === 'p' || k === 'P' || k === 'Escape') pauseGame();
+  });
+
+  $('startBtn').addEventListener('click', startGame);
+  $('againBtn').addEventListener('click', startGame);
+  $('resumeBtn').addEventListener('click', resumeGame);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) pauseGame(); });
+
+  function hold(id, fn) {
+    $(id).addEventListener('pointerdown', function (e) { e.preventDefault(); if (state === 'playing') fn(); });
+  }
+  hold('tL', function () { moveLane(-1); });
+  hold('tR', function () { moveLane(1); });
+  hold('tJ', jump);
+
+  var tx = 0, ty = 0;
+  stage.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (state !== 'playing') return;
+    var t = e.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+    if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) moveLane(dx > 0 ? 1 : -1);
+    else if (dy < -30) jump();
+  }, { passive: true });
+
+  setState('ready');
+})();
+</script>
+
+</body></html>
