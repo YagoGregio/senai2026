@@ -1,24 +1,24 @@
-1-  SELECT * 
+    SELECT * 
     FROM produto 
     WHERE nome_produto LIKE "D%";
 
-2-  SELECT nome_produto,marca,estoque 
+    SELECT nome_produto,marca,estoque 
     FROM produto 
     WHERE marca LIKE "%E";
 
-3-  SELECT nome_produto,marca,preco_unitario 
+    SELECT nome_produto,marca,preco_unitario 
     FROM produto 
     WHERE nome_produto LIKE "%Gamer%";
 
-4-  SELECT * 
+    SELECT * 
     FROM cliente 
     WHERE nome_cliente LIKE "%Barbosa";
 
-5-  SELECT cliente.nome_cliente, venda.data_venda, produto.preco_unitario, venda.forma_pagamento 
+    SELECT cliente.nome_cliente, venda.data_venda, produto.preco_unitario, venda.forma_pagamento 
     FROM cliente,venda,produto 
     WHERE nome_cliente LIKE "C%";
 
-6-  SELECT
+    SELECT
     produto.nome_produto,
     venda.data_venda,
     venda.id_venda,
@@ -29,7 +29,7 @@
     WHERE venda.forma_pagamento IN ('Pix', 'Boleto')
     AND produto.nome_produto LIKE '%Polegada%';
 
-7-  SELECT
+    SELECT
     nome_produto,
     nome_cliente,
     desconto_percentual,
