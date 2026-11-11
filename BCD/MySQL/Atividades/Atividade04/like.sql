@@ -1,3 +1,4 @@
+/* Atividade usando LIKE*/
     SELECT * 
     FROM produto 
     WHERE nome_produto LIKE "D%";
