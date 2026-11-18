@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARABÉNS!</title>
+    <style>
+        /* Remove margens padrão */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ocupa 100% da tela com um fundo festivo */
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #00b09b, #96c93d); /* Degradê verde vibrante */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            
+            /* Centraliza tudo no meio da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Emoji gigante no topo */
+        .icone {
+            font-size: 8vw;
+            margin-bottom: 10px;
+            animation: pular 1.5s infinite ease-in-out;
+        }
+
+        /* Título gigante responsivo */
+        .titulo-parabens {
+            font-size: 13vw; /* Ocupa quase toda a largura da tela */
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 4px 6px 15px rgba(0, 0, 0, 0.25); /* Sombra para destacar */
+            animation: pulsar 2s infinite ease-in-out;
+        }
+
+        .subtitulo {
+            font-size: 2.5vw;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+
+        .mensagem {
+            font-size: 1.4rem;
+            margin-top: 25px;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+
+        /* Animação suave de pulsar para o texto principal */
+        @keyframes pulsar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        /* Animação de pulo para o troféu/festa */
+        @keyframes pular {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="icone">🎉</div>
+    <div class="titulo-parabens">PARABÉNS!</div>
+    <div class="subtitulo">MISSÃO CUMPRIDA COM SUCESSO</div>

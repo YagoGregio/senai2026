@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 16px;
+}
+
+.container-login {
+    width: 100%;
+    max-width: 380px;
+    background-color: #ffffff;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.cabecalho {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.cabecalho h1 {
+    font-size: 1.6rem;
+    color: #1e3c72;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-login label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.form-login input {
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-login input:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.2);
+}
+
+#mensagem {
+    color: #d93025;
+    font-size: 0.9rem;
+    min-height: 20px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.botao-entrar {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2a5298;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.botao-entrar:hover {
+    background-color: #1e3c72;
+}
+
+.botao-entrar:active {
+    transform: scale(0.98);
+}

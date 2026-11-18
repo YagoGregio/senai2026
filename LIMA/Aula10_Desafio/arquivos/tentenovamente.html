@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERRO CRÍTICO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #b30000; 
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden; /* Evita barras de rolagem */
+        }
+
+        .titulo-erro {
+            font-size: 14vw; /* Ocupa 14% da largura da tela */
+            font-weight: bold;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            animation: piscar 1s infinite; /* Efeito de alerta piscando */
+        }
+
+        .codigo {
+            font-size: 4vw;
+            margin-top: 10px;
+            background-color: #ffffff;
+            color: #b30000;
+            padding: 5px 20px;
+            font-weight: bold;
+        }
+
+        .descricao {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        /* Animação simples para dar urgência */
+        @keyframes piscar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="titulo-erro">ERRO 500</div>
+    <div class="codigo">FALHA CRÍTICA DO SISTEMA</div>
+    <p class="descricao">
+        Ocorreu um problema inesperado e o sistema precisou ser interrompido para evitar danos maiores. 
+        Reinicie a página ou contate o administrador.
+    </p>
+
+</body>
+</html>
