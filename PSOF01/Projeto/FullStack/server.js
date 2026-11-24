@@ -10,7 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/api/produtos', produtroRoutes)
+app.get('/api', (req,res) =>{
+    res.json({mensagem: 'API de produtos funcionando!'})
+})
 
 const port = process.env.PORT || 3000;
 
